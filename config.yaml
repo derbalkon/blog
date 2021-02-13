@@ -1,0 +1,143 @@
+baseurl: https://example.com
+languageCode: en-us
+theme: hugo-theme-stack
+paginate: 10
+title: derbalkon's
+
+# Change it to your Disqus shortname before using
+# disqusShortname: hugo-theme-stack
+
+# Theme i18n support
+# Available values: en, fr, id, ja, ko, pt-br, zh-cn
+DefaultContentLanguage: zh-cn
+
+permalinks:
+    post: /post/:filename/
+    page: /:slug/
+
+params:
+    mainSections:
+        - post
+    featuredImageField: image
+    rssFullContent: true
+    favicon:
+
+    footer:
+        since: 2014
+        customText:
+
+    dateFormat:
+        published: Jan 02, 2006
+        lastUpdated: Jan 02, 2006
+
+    sidebar:
+        emoji: 🧊
+        subtitle: Lorem ipsum
+        avatar:
+            local: true
+            src: img/avatar.png
+
+    article:
+        math: false
+        license:
+            enabled: true
+            default: Licensed under CC BY-NC-SA 4.0
+
+    comments:
+        enabled: false
+        # provider: disqus
+        # utterances:
+        #     repo:
+        #     issueTerm: pathname
+        #     label:
+        #     theme: preferred-color-scheme
+
+    widgets:
+        enabled: false
+            # - search
+            # - archives
+            # - tag-cloud
+
+        archives:
+            limit: 5
+
+        tagCloud:
+            limit: 10
+
+    opengraph:
+        twitter:
+            # Your Twitter username
+            site:
+
+            # Available values: summary, summary_large_image
+            card: summary_large_image
+
+    defaultImage:
+        opengraph:
+            enabled: false
+            local: false
+            src:
+
+    colorScheme:
+        # Display toggle
+        toggle: true
+
+        # Available values: auto, light, dark
+        default: auto
+
+    imageProcessing:
+        cover:
+            enabled: true
+        content:
+            enabled: true
+
+menu:
+    main:
+        - identifier: home
+          name: 主页
+          url: /
+          weight: -100
+          pre: home
+
+        - identifier: archives
+          name: 所有文章
+          url: /post
+          weight: -90
+          pre: archives
+
+        - identifier: about
+          name: 关于我
+          url: about
+          weight: -80
+          pre: user
+
+        - identifier: files
+          name: 货仓
+          url: https://files.wrrrr.me
+          weight: -70
+          pre: storage
+
+        - identifier: search
+          name: 搜索
+          url: search
+          weight: -60
+          pre: search
+
+related:
+    includeNewer: true
+    threshold: 60
+    toLower: false
+    indices:
+        - name: tags
+          weight: 100
+
+        - name: categories
+          weight: 200
+
+markup:
+    highlight:
+        noClasses: false
+    goldmark:
+        renderer:
+            hardWraps: true
+            unsafe: true

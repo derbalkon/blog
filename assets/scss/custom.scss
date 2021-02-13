@@ -1,0 +1,61 @@
+:root {
+    --article-font-family: lora, source-han-serif-sc, var(--base-font-family);
+    --article-font-size: 1.6rem;
+    --body-text-color: #7a7a7a;
+    --body-background: #fafafa;
+    --code-background-color: #f1f3f4;
+    .chroma {
+        background-color: #f1f3f4;
+    }
+
+    .article-list--compact {
+        .article-image {
+            img {
+                width: 100px;
+                height: var(--image-size);
+                object-fit: cover;
+                border-radius: 8px;
+            }
+        }
+    }
+
+    a.link {
+        box-shadow: none;
+        color: var(--card-text-color)
+    }
+    a.link:hover {
+        box-shadow: none;
+        color: #b35c44;
+    }
+    a.link:after {
+        position: relative;
+        content: "\FEFF°";
+        margin-left: 0.10em;
+        top: -0.2em;
+        color: #b35c44;
+        font-feature-settings: 'caps' 1;
+    }
+    body {
+        -webkit-font-smoothing: subpixel-antialiased;
+    }
+    code, kbd, samp {
+        font-size: 1.4rem;
+    }
+
+    @media (min-width: 812px) {    
+        .container.compact .left-sidebar {
+            width: 20%;
+        }
+    }
+    
+    [data-scheme="dark"] {
+        --body-background: #1b1b1b;
+        --card-background: #2e3235;
+        --blockquote-background-color: #25282c;
+        --code-background-color: #2e3235;
+        --pre-background-color: #1f2224;
+        .chroma {
+            background-color: #1f2224;
+        }
+    }
+}
