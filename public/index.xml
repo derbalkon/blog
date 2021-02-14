@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>derbalkon&#39;s</title>
+        <link>https://example.com/</link>
+        <description>Recent content on derbalkon&#39;s</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en-us</language>
+        <lastBuildDate>Mon, 01 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://example.com/index.xml" rel="self" type="application/rss+xml" /><item>
+        <title>喜闻乐见的 Boot Camp (Hackintosh) 踩坑集锦</title>
+        <link>https://example.com/post/200601-hackintosh-bootcamp/</link>
+        <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/200601-hackintosh-bootcamp/</guid>
+        <description>&lt;img src="https://example.com/post/image/cover-image.png" alt="Featured image of post 喜闻乐见的 Boot Camp (Hackintosh) 踩坑集锦" /&gt;&lt;p&gt;自从年初使用了广为流传的 300 系主板的原生 NVRAM 解法，并且全面转换到 OpenCore 引导 macOS 之后，几乎已经忘了这台主机是一台 PC 了。偶尔出于娱乐和兼容的需求要用到 Windows，又苦于 Parallels Desktop 的订阅份额被自己的 MacBook Pro 用掉了，于是萌生了利用 Boot Camp 进行启动转换的想法，让这台 PC 向 Mac 更进一步。&lt;del&gt;既然要追求极致，那就贯彻到底咯～（什么烂梗）&lt;/del&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：这里所说的 Boot Camp 仅仅是指 &lt;strong&gt;启动转换&lt;/strong&gt;，而不是用 Boot Camp 去安装 Windows。理论上这样做是可行的，但是 PC 毕竟不是 Mac，在硬盘数量、分区或者其他一些东西上有差别，会导致 Boot Camp 系统盘制作错误、安装错误等等玄学问题。&lt;/p&gt;
+&lt;h2 id=&#34;用-opencore-引导有什么弊端&#34;&gt;用 OpenCore 引导有什么弊端？&lt;/h2&gt;
+&lt;p&gt;正如 &lt;a class=&#34;link&#34; href=&#34;https://github.com/acidanthera/OpenCorePkg/blob/master/Docs/Configuration.pdf&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;OpenCore 官方文档&lt;/a&gt; 写得那样：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;不支持 MBR；&lt;/li&gt;
+&lt;li&gt;ACPI、NVRAM 和 SMBIOS 在 OpenCore 上的所有改动都会被一视同仁地应用到 Windows 上；&lt;/li&gt;
+&lt;li&gt;如果 config.plist 中的 UUID 填写的是随机生成的，而不是主板本身的，Windows 系统可能需要重新激活。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;但是反过来看，这些「弊端」其实是为了达到真正 Boot Camp 的使用体验而留下的，更加 &lt;strong&gt;一体化且无缝&lt;/strong&gt;，毕竟真正的 Mac 设备并不需要两份不同的 ACPI、NVRAM 和 SMBIOS 不是吗？&lt;/p&gt;
+&lt;h2 id=&#34;为什么不用-boot-menu-引导-windows&#34;&gt;为什么不用 Boot Menu 引导 Windows？&lt;/h2&gt;
+&lt;p&gt;原因有很多：&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;比如用 Boot Menu 引导绕过了 OpenCore 启动器，也就意味着放弃了 Boot Camp 的体验——在操作系统中实现启动切换；&lt;/li&gt;
+&lt;li&gt;比如做好了 ACPI 的系统判断，UUID 也填好了主板本身的值，那么用 OpenCore 引导的「副作用」就不那么显著了；&lt;/li&gt;
+&lt;li&gt;还比如有些&lt;del&gt;小倒霉蛋的&lt;/del&gt;主板在使用 OpenCore 引导之后，可能会出现按 &lt;kbd&gt;F11&lt;/kbd&gt; 卡在黑屏而不能进入 Boot Menu 或 BIOS 的情况，那么就别无选择，只能用 OpenCore 来引导 Windows 了。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&#34;折腾-boot-camp-的时候有那些坑&#34;&gt;折腾 Boot Camp 的时候有那些坑？&lt;/h2&gt;
+&lt;p&gt;由于我本人的机器仅仅是单硬盘双系统（分区为简单的 &lt;code&gt;EFI&lt;/code&gt; + &lt;code&gt;Macintosh HD&lt;/code&gt; + &lt;code&gt;Windows HD&lt;/code&gt;），因此下面的所有描述都是在单硬盘双系统的情况下，可能遇到问题和相应解法。&lt;/p&gt;
+&lt;h3 id=&#34;boot-camp-死活装不上&#34;&gt;Boot Camp 死活装不上&lt;/h3&gt;
+&lt;p&gt;当我定制好了 ACPI 和 SMBIOS，满怀欣喜地引导到 Windows 时，突然发现自己准备好的 Boot Camp 安装包无法完成安装，提示我不支持在这台机器上安装。&lt;/p&gt;
+&lt;p&gt;难道没有被识别为 Mac？&lt;/p&gt;
+&lt;p&gt;于是打开 AIDA64，看了一眼，果然概览还是显示为 MSI，而不是 iMac19,1。那么问题肯定就处在 SMBIOS 身上了。仔细地排查了一下机型信息，发现并没有哪里填的不对。后来看了一眼官方文档才知道，原来从 OpenCore 0.5.8 开始，把 &lt;code&gt;UpdateSMBIOSMode&lt;/code&gt; 设置为 &lt;code&gt;Custom&lt;/code&gt;，所填写的 SMBIOS 信息就不会被应用到 Windows 了。于是改回 &lt;code&gt;Create&lt;/code&gt;，让 OpenCore 自己根据 &lt;code&gt;Generic&lt;/code&gt; 里填写的必要信息生成一套齐全的 SMBIOS，果然成功安装。&lt;/p&gt;
+&lt;p&gt;在这里值得一提的是：当你把 UUID 填写为主板本身的 UUID 时，因为某些主板本身的 UUID 可能错的、不是随机生成的，Mac 下通过 Hackintool 查看会发现，&lt;code&gt;系统 ID&lt;/code&gt;（也就是 &lt;code&gt;system-id&lt;/code&gt;）可能会显示为 &lt;code&gt;???&lt;/code&gt;，但目前就我本人的体验来看，并没有什么实质性的影响。&lt;/p&gt;
+&lt;h3 id=&#34;boot-camp-安装旷日持久甚至卡死&#34;&gt;Boot Camp 安装旷日持久，甚至卡死&lt;/h3&gt;
+&lt;p&gt;看起来像是卡死了，实际上只是在原地待命，因为没有提前把不需要的驱动程序从大礼包中删掉，Boot Camp 不认识这台设备——「这不是我认识的那个 Mac！」。因此只需要删掉不需要的驱动即可。&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;如果你有 Apple 的拆机无线卡，&lt;code&gt;$WinPEDriver$&lt;/code&gt; 文件夹中，除了 &lt;code&gt;AppleBluetoothBroadcom&lt;/code&gt;, &lt;code&gt;BroadcomWireless&lt;/code&gt;, &lt;code&gt;BroadcomBluetooth&lt;/code&gt; 之外，其他都可以删掉。&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;BootCamp\Drivers&lt;/code&gt; 里面的文件，&lt;code&gt;Apple&lt;/code&gt; 不要删；如果有 Apple 的拆机卡， &lt;code&gt;Broadcom\BroadcomBluetooth&lt;/code&gt; 也不要删。&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;mac-下的更改启动磁盘时报错&#34;&gt;Mac 下的更改启动磁盘时报错&lt;/h3&gt;
+&lt;p&gt;更改启动磁盘时，有时会出现 &lt;strong&gt;Bless 工具无法设定当前的启动磁盘&lt;/strong&gt; 的错误提示，确保 &lt;code&gt;AdviseWindows&lt;/code&gt; 和 &lt;code&gt;WriteFlash&lt;/code&gt; 设置为 &lt;code&gt;True&lt;/code&gt;，一般来说后者是引起这个问题的主要因素。&lt;/p&gt;
+&lt;h3 id=&#34;mac-下的启动磁盘不显示-windows-分区&#34;&gt;Mac 下的启动磁盘不显示 Windows 分区&lt;/h3&gt;
+&lt;p&gt;原因是你可能使用了第三方 NTFS 插件，比如 Tuxera 等，它会把 Windows NT 系统改为 &lt;strong&gt;Windows NT 系统（Tuxera）&lt;/strong&gt;，macOS 自然也不会识别这种文件系统类型。&lt;/p&gt;
+&lt;h3 id=&#34;windows-下的启动转换助理不显示-mac-分区&#34;&gt;Windows 下的启动转换助理不显示 Mac 分区&lt;/h3&gt;
+&lt;p&gt;Boot Camp 的版本可能已经过时了，更新到最新版本应该就可以了。&lt;/p&gt;
+&lt;h3 id=&#34;boot-camp-中-windows-分区显示为-basic-data-partition&#34;&gt;Boot Camp 中 Windows 分区显示为 Basic data partition&lt;/h3&gt;
+&lt;p&gt;一般来讲，Windows 都是单独安装的，而 Boot Camp 是使用 GPT 分区表获取每个引导选项的名称的，因此也需要手动重新标记 Windows 分区。具体可参考&lt;a class=&#34;link&#34; href=&#34;https://oc.skk.moe/12-troubleshooting.html#3-%e4%b8%ba%e4%bb%80%e4%b9%88%e6%88%91%e4%bc%9a%e5%9c%a8-Boot-Camp-%e5%90%af%e5%8a%a8%e7%a1%ac%e7%9b%98-%e6%8e%a7%e5%88%b6%e9%9d%a2%e6%9d%bf-%e4%b8%ad%e7%9c%8b%e5%88%b0-Basic-data-partition%ef%bc%9f&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;这个段落&lt;/a&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;opencore-启动菜单里没有-windows-选项&#34;&gt;OpenCore 启动菜单里没有 Windows 选项！&lt;/h3&gt;
+&lt;p&gt;首先确保安装 Windows 时不是 MBR(legacy) 安装的，因为 OpenCore 只支持基于 UEFI 安装的 Windows。&lt;/p&gt;
+&lt;p&gt;然后查看一下 &lt;code&gt;ScanPolicy&lt;/code&gt; 是否已经设置为 &lt;code&gt;0&lt;/code&gt;，或其他能够识别到 Windows 文件系统和所在磁盘的类型的值。（一般来说设置为 &lt;code&gt;0&lt;/code&gt; 比较省事，如果想要精简也可以自己调整）&lt;/p&gt;
+&lt;p&gt;OpenCore 从 0.5.9 开始使用了全新的启动管理，到此为止就可以自动识别到 Windows 分区了；0.5.8 及更老的版本还需要在 &lt;code&gt;BlessOverride&lt;/code&gt; 中设置 &lt;code&gt;bootmgfw.efi&lt;/code&gt; 的路径。&lt;/p&gt;
+&lt;h3 id=&#34;windows-蓝屏了&#34;&gt;Windows 蓝屏了！！&lt;/h3&gt;
+&lt;p&gt;常见的错误代码可能是 &lt;code&gt;0xc000000d&lt;/code&gt;，一般都是 config 没有配置好导致的。看看 &lt;code&gt;SyncRuntimePermissions&lt;/code&gt; 有没有启用。新主板可能还要启用 &lt;code&gt;ProtectUefiServices&lt;/code&gt;，13 年以前的主板可能要启用 &lt;code&gt;ProtectMemoryRegions&lt;/code&gt;。&lt;/p&gt;
+&lt;h3 id=&#34;d-不见了&#34;&gt;D:\ 不见了！！！&lt;/h3&gt;
+&lt;p&gt;原生的 Boot Camp 的逻辑是，创建一个 D 盘分区作为安装目录，把 Windows 安装到 C 盘，成功安装后 D 盘就功成身退。尽管你不是通过 Boot Camp 安装的 Windows，但当你有多个分区的时候，你的下一个分区依然会被 Boot Camp 误认为是安装目录了。解决这个的办法很简单，用 &lt;strong&gt;傲梅分区助手&lt;/strong&gt; 把 D 盘取消隐藏即可。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Google&#39;s R Style Guide</title>
+        <link>https://example.com/post/190521-r-style-guide/</link>
+        <pubDate>Tue, 21 May 2019 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/190521-r-style-guide/</guid>
+        <description>&lt;img src="https://example.com/post/image/cover-r-style-guide.jpg" alt="Featured image of post Google&#39;s R Style Guide" /&gt;&lt;p&gt;R is a high-level programming language used primarily for statistical computing and graphics. The goal of the R Programming Style Guide is to make our R code easier to read, share, and verify. The rules below were designed in collaboration with the entire R user community at Google.&lt;/p&gt;
+&lt;h2 id=&#34;summary-r-style-rules&#34;&gt;Summary: R Style Rules&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;File Names: end in &lt;code&gt;.R&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Identifiers: &lt;code&gt;variable.name&lt;/code&gt;, &lt;code&gt;FunctionName&lt;/code&gt;, &lt;code&gt;kConstantName&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Line Length: maximum 80 characters&lt;/li&gt;
+&lt;li&gt;Indentation: two spaces, no tabs&lt;/li&gt;
+&lt;li&gt;Spacing&lt;/li&gt;
+&lt;li&gt;Curly Braces: first on same line, last on own line&lt;/li&gt;
+&lt;li&gt;Assignment: use &lt;code&gt;&amp;lt;-&lt;/code&gt;, not &lt;code&gt;=&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Semicolons: don&amp;rsquo;t use them&lt;/li&gt;
+&lt;li&gt;General Layout and Ordering&lt;/li&gt;
+&lt;li&gt;Commenting Guidelines: all comments begin with &lt;code&gt;#&lt;/code&gt; followed by a space; inline comments need two spaces before the &lt;code&gt;#&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Function Definitions and Calls&lt;/li&gt;
+&lt;li&gt;Function Documentation&lt;/li&gt;
+&lt;li&gt;Example Function&lt;/li&gt;
+&lt;li&gt;TODO Style: &lt;code&gt;TODO(username)&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&#34;summary-r-language-rules&#34;&gt;Summary: R Language Rules&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;attach: avoid using it&lt;/li&gt;
+&lt;li&gt;Functions: errors should be raised using &lt;code&gt;stop()&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Objects and Methods: avoid S4 objects and methods when possible; never mix S3 and S4&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3 id=&#34;notation-and-naming&#34;&gt;Notation and Naming&lt;/h3&gt;
+&lt;h4 id=&#34;file-names&#34;&gt;File Names&lt;/h4&gt;
+&lt;p&gt;File names should end in .R and, of course, be meaningful.&lt;br&gt;
+GOOD: &lt;code&gt;predict_ad_revenue.R&lt;/code&gt;&lt;br&gt;
+BAD: &lt;code&gt;foo.R&lt;/code&gt;&lt;/p&gt;
+&lt;h4 id=&#34;identifiers&#34;&gt;Identifiers&lt;/h4&gt;
+&lt;p&gt;Don&amp;rsquo;t use underscores (&lt;code&gt;_&lt;/code&gt;) or hyphens (&lt;code&gt;-&lt;/code&gt;) in identifiers. Identifiers should be named according to the following conventions. Variable names should have all lower case letters and words separated with dots (&lt;code&gt;.&lt;/code&gt;); function names have initial capital letters and no dots (CapWords); constants are named like functions but with an initial &lt;code&gt;k&lt;/code&gt;.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;variable.name&lt;/code&gt;&lt;br&gt;
+GOOD: &lt;code&gt;avg.clicks&lt;/code&gt;&lt;br&gt;
+BAD: &lt;code&gt;avg_Clicks&lt;/code&gt; , &lt;code&gt;avgClicks&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;FunctionName&lt;/code&gt;&lt;br&gt;
+GOOD: &lt;code&gt;CalculateAvgClicks&lt;/code&gt;&lt;br&gt;
+BAD: &lt;code&gt;calculate_avg_clicks&lt;/code&gt; , &lt;code&gt;calculateAvgClicks&lt;/code&gt;&lt;br&gt;
+Make function names verbs.&lt;br&gt;
+&lt;em&gt;Exception: When creating a classed object, the function name (constructor) and class should match (e.g., lm).&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;kConstantName&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&#34;syntax&#34;&gt;Syntax&lt;/h3&gt;
+&lt;h4 id=&#34;line-length&#34;&gt;Line Length&lt;/h4&gt;
+&lt;p&gt;The maximum line length is 80 characters.&lt;/p&gt;
+&lt;h4 id=&#34;indentation&#34;&gt;Indentation&lt;/h4&gt;
+&lt;p&gt;When indenting your code, use two spaces. Never use tabs or mix tabs and spaces.&lt;br&gt;
+&lt;em&gt;Exception: When a line break occurs inside parentheses, align the wrapped line with the first character inside the parenthesis.&lt;/em&gt;&lt;/p&gt;
+&lt;h4 id=&#34;spacing&#34;&gt;Spacing&lt;/h4&gt;
+&lt;p&gt;Place spaces around all binary operators (&lt;code&gt;=&lt;/code&gt;, &lt;code&gt;+&lt;/code&gt;, &lt;code&gt;-&lt;/code&gt;, &lt;code&gt;&amp;lt;-&lt;/code&gt;, etc.).&lt;br&gt;
+&lt;em&gt;Exception: Spaces around &lt;code&gt;=&lt;/code&gt;&amp;rsquo;s are optional when passing parameters in a function call.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Do not place a space before a comma, but always place one after a comma.&lt;/p&gt;
+&lt;p&gt;GOOD:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-R&#34; data-lang=&#34;R&#34;&gt;&lt;span class=&#34;n&#34;&gt;tabPrior&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;table&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;df[df&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;daysFromOpt&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;campaignid&amp;#34;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;total&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;sum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x[&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;total&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;sum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x[1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;BAD:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-R&#34; data-lang=&#34;R&#34;&gt;&lt;span class=&#34;n&#34;&gt;tabPrior&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;table&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;df[df&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;daysFromOpt&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;campaignid&amp;#34;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# Needs spaces around &amp;#39;&amp;lt;&amp;#39;&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;tabPrior&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;table&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;df[df&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;daysFromOpt&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;campaignid&amp;#34;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# Needs a space after the comma&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;tabPrior&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;table&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;df[df&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;daysFromOpt&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;campaignid&amp;#34;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# Needs a space before &amp;lt;-&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;tabPrior&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;table&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;df[df&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;daysFromOpt&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;campaignid&amp;#34;&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# Needs spaces around &amp;lt;-&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;total&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;sum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x[&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# Needs a space after the comma&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;total&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;sum&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x[&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;1&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# Needs a space after the comma, not before&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Place a space before left parenthesis, except in a function call.&lt;/p&gt;
+&lt;p&gt;GOOD:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-R&#34; data-lang=&#34;R&#34;&gt;&lt;span class=&#34;nf&#34;&gt;if &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;debug&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;BAD:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-R&#34; data-lang=&#34;R&#34;&gt;&lt;span class=&#34;nf&#34;&gt;if&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;debug&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Extra spacing (i.e., more than one space in a row) is okay if it improves alignment of equals signs or arrows (&lt;code&gt;&amp;lt;-&lt;/code&gt;).&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-R&#34; data-lang=&#34;R&#34;&gt;&lt;span class=&#34;nf&#34;&gt;plot&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;    &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;xCoord&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+     &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;    &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;dataMat[&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;makeColName&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;metric&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ptiles[1]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;roiOpt&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;]&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+     &lt;span class=&#34;n&#34;&gt;ylim&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ylim&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+     &lt;span class=&#34;n&#34;&gt;xlab&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;dates&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+     &lt;span class=&#34;n&#34;&gt;ylab&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;metric&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+     &lt;span class=&#34;n&#34;&gt;main&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;paste&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;metric&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34; for 3 samples &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sep&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Do not place spaces around code in parentheses or square brackets.&lt;br&gt;
+Exception: Always place a space after a comma.&lt;/p&gt;
+&lt;p&gt;GOOD:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-R&#34; data-lang=&#34;R&#34;&gt;&lt;span class=&#34;nf&#34;&gt;if &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;debug&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;x[1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;BAD:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-R&#34; data-lang=&#34;R&#34;&gt;&lt;span class=&#34;nf&#34;&gt;if &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;debug&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# No spaces around debug&lt;/span&gt;
+&lt;span class=&#34;n&#34;&gt;x[1&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;]&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# Needs a space after the comma &lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;curly-braces&#34;&gt;Curly Braces&lt;/h4&gt;
+&lt;p&gt;An opening curly brace should never go on its own line; a closing curly brace should always go on its own line. You may omit curly braces when a block consists of a single statement; however, you must consistently either use or not use curly braces for single statement blocks.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-R&#34; data-lang=&#34;R&#34;&gt;&lt;span class=&#34;nf&#34;&gt;if &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;is.null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ylim&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;n&#34;&gt;ylim&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0.06&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;span class=&#34;nf&#34;&gt;xor &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;but&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;not&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;both&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+
+&lt;span class=&#34;nf&#34;&gt;if &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;is.null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ylim&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt;
+  &lt;span class=&#34;n&#34;&gt;ylim&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0.06&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Always begin the body of a block on a new line.&lt;/p&gt;
+&lt;p&gt;BAD:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-R&#34; data-lang=&#34;R&#34;&gt;&lt;span class=&#34;nf&#34;&gt;if &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;is.null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ylim&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;ylim&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0.06&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; 
+&lt;span class=&#34;nf&#34;&gt;if &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;nf&#34;&gt;is.null&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ylim&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;ylim&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;c&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;m&#34;&gt;0&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;0.06&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;assignment&#34;&gt;Assignment&lt;/h4&gt;
+&lt;p&gt;Use &lt;code&gt;&amp;lt;-&lt;/code&gt;, not &lt;code&gt;=&lt;/code&gt;, for assignment.&lt;/p&gt;
+&lt;p&gt;GOOD:&lt;br&gt;
+&lt;code&gt;x &amp;lt;- 5&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;BAD:&lt;br&gt;
+&lt;code&gt;x = 5&lt;/code&gt;&lt;/p&gt;
+&lt;h4 id=&#34;semicolons&#34;&gt;Semicolons&lt;/h4&gt;
+&lt;p&gt;Do not terminate your lines with semicolons or use semicolons to put more than one command on the same line. (Semicolons are not necessary, and are omitted for consistency with other Google style guides.)&lt;/p&gt;
+&lt;h3 id=&#34;organization&#34;&gt;Organization&lt;/h3&gt;
+&lt;h4 id=&#34;general-layout-and-ordering&#34;&gt;General Layout and Ordering&lt;/h4&gt;
+&lt;p&gt;If everyone uses the same general ordering, we&amp;rsquo;ll be able to read and understand each other&amp;rsquo;s scripts faster and more easily.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Copyright statement comment&lt;/li&gt;
+&lt;li&gt;Author comment&lt;/li&gt;
+&lt;li&gt;File description comment, including purpose of program, inputs, and outputs&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;source()&lt;/code&gt; and &lt;code&gt;library()&lt;/code&gt; statements&lt;/li&gt;
+&lt;li&gt;Function definitions&lt;/li&gt;
+&lt;li&gt;Executed statements, if applicable (e.g., &lt;code&gt;print&lt;/code&gt;, &lt;code&gt;plot&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Unit tests should go in a separate file named &lt;code&gt;originalfilename_unittest.R&lt;/code&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;commenting-guidelines&#34;&gt;Commenting Guidelines&lt;/h4&gt;
+&lt;p&gt;Comment your code. Entire commented lines should begin with # and one space.&lt;/p&gt;
+&lt;p&gt;Short comments can be placed after code preceded by two spaces, #, and then one space.&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-R&#34; data-lang=&#34;R&#34;&gt;&lt;span class=&#34;c1&#34;&gt;# Create histogram of frequency of campaigns by pct budget spent.&lt;/span&gt;
+
+&lt;span class=&#34;nf&#34;&gt;hist&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;df&lt;/span&gt;&lt;span class=&#34;o&#34;&gt;$&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;pctSpent&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+     &lt;span class=&#34;n&#34;&gt;breaks&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;scott&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;  &lt;span class=&#34;c1&#34;&gt;# method for choosing number of buckets&lt;/span&gt;
+     &lt;span class=&#34;n&#34;&gt;main&lt;/span&gt;   &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Histogram: fraction budget spent by campaignid&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+     &lt;span class=&#34;n&#34;&gt;xlab&lt;/span&gt;   &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Fraction of budget spent&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+     &lt;span class=&#34;n&#34;&gt;ylab&lt;/span&gt;   &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;Frequency (count of campaignids)&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;function-definitions-and-calls&#34;&gt;Function Definitions and Calls&lt;/h4&gt;
+&lt;p&gt;Function definitions should first list arguments without default values, followed by those with default values.&lt;/p&gt;
+&lt;p&gt;In both function definitions and function calls, multiple arguments per line are allowed; line breaks are only allowed between assignments.&lt;/p&gt;
+&lt;p&gt;GOOD:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-R&#34; data-lang=&#34;R&#34;&gt;&lt;span class=&#34;n&#34;&gt;PredictCTR&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;query&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;property&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;numDays&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+                       &lt;span class=&#34;n&#34;&gt;showPlot&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;TRUE&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;BAD:&lt;/p&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-R&#34; data-lang=&#34;R&#34;&gt;&lt;span class=&#34;n&#34;&gt;PredictCTR&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;query&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;property&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;numDays&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;showPlot&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt;
+                       &lt;span class=&#34;kc&#34;&gt;TRUE&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;Ideally, unit tests should serve as sample function calls (for shared library routines).&lt;/p&gt;
+&lt;h4 id=&#34;function-documentation&#34;&gt;Function Documentation&lt;/h4&gt;
+&lt;p&gt;Functions should contain a comments section immediately below the function definition line. These comments should consist of a one-sentence description of the function; a list of the function&amp;rsquo;s arguments, denoted by Args:, with a description of each (including the data type); and a description of the return value, denoted by Returns:. The comments should be descriptive enough that a caller can use the function without reading any of the function&amp;rsquo;s code.&lt;/p&gt;
+&lt;h4 id=&#34;example-function&#34;&gt;Example Function&lt;/h4&gt;
+&lt;div class=&#34;highlight&#34;&gt;&lt;pre class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-R&#34; data-lang=&#34;R&#34;&gt;&lt;span class=&#34;n&#34;&gt;CalculateSampleCovariance&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;function&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;verbose&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;TRUE&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;# Computes the sample covariance between two vectors.&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;#&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;# Args:&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;#   x: One of two vectors whose sample covariance is to be calculated.&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;#   y: The other vector. x and y must have the same length, greater than one,&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;#      with no missing values.&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;#   verbose: If TRUE, prints sample covariance; if not, not. Default is TRUE.&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;#&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;# Returns:&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;#   The sample covariance between x and y.&lt;/span&gt;
+  &lt;span class=&#34;n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;length&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;c1&#34;&gt;# Error handling&lt;/span&gt;
+  &lt;span class=&#34;nf&#34;&gt;if &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;=&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;1&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;n&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;!=&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;length&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;nf&#34;&gt;stop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Arguments x and y have invalid lengths: &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt;
+         &lt;span class=&#34;nf&#34;&gt;length&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34; and &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;length&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;.&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+  &lt;span class=&#34;nf&#34;&gt;if &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;kc&#34;&gt;TRUE&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;%in%&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;is.na&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;||&lt;/span&gt; &lt;span class=&#34;kc&#34;&gt;TRUE&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;%in%&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;is.na&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;))&lt;/span&gt; &lt;span class=&#34;p&#34;&gt;{&lt;/span&gt;
+    &lt;span class=&#34;nf&#34;&gt;stop&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34; Arguments x and y must not have missing values.&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+  &lt;span class=&#34;n&#34;&gt;covariance&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;&amp;lt;-&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;var&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;x&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;y&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;nf&#34;&gt;if &lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;verbose&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+    &lt;span class=&#34;nf&#34;&gt;cat&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;s&#34;&gt;&amp;#34;Covariance = &amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;nf&#34;&gt;round&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;covariance&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;m&#34;&gt;4&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;),&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;.\n&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;,&lt;/span&gt; &lt;span class=&#34;n&#34;&gt;sep&lt;/span&gt; &lt;span class=&#34;o&#34;&gt;=&lt;/span&gt; &lt;span class=&#34;s&#34;&gt;&amp;#34;&amp;#34;&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+  &lt;span class=&#34;nf&#34;&gt;return&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;(&lt;/span&gt;&lt;span class=&#34;n&#34;&gt;covariance&lt;/span&gt;&lt;span class=&#34;p&#34;&gt;)&lt;/span&gt;
+&lt;span class=&#34;p&#34;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;h4 id=&#34;todo-style&#34;&gt;TODO Style&lt;/h4&gt;
+&lt;p&gt;Use a consistent style for TODOs throughout your code.&lt;br&gt;
+&lt;code&gt;TODO(username): Explicit description of action to be taken&lt;/code&gt;&lt;/p&gt;
+&lt;h3 id=&#34;language&#34;&gt;Language&lt;/h3&gt;
+&lt;h4 id=&#34;attach&#34;&gt;Attach&lt;/h4&gt;
+&lt;p&gt;The possibilities for creating errors when using attach are numerous. Avoid it.&lt;/p&gt;
+&lt;h4 id=&#34;functions&#34;&gt;Functions&lt;/h4&gt;
+&lt;p&gt;Errors should be raised using &lt;code&gt;stop()&lt;/code&gt;.&lt;/p&gt;
+&lt;h4 id=&#34;objects-and-methods&#34;&gt;Objects and Methods&lt;/h4&gt;
+&lt;p&gt;The S language has two object systems, S3 and S4, both of which are available in R. S3 methods are more interactive and flexible, whereas S4 methods are more formal and rigorous. (For an illustration of the two systems, see Thomas Lumley&amp;rsquo;s &amp;ldquo;Programmer&amp;rsquo;s Niche: A Simple Class, in S3 and S4&amp;rdquo; in R News 4/1, 2004, pgs. 33 - 36: &lt;a href=&#34;http://cran.r-project.org/doc/Rnews/Rnews_2004-1.pdf&#34;&gt;http://cran.r-project.org/doc/Rnews/Rnews_2004-1.pdf&lt;/a&gt;.)&lt;/p&gt;
+&lt;p&gt;Use S3 objects and methods unless there is a strong reason to use S4 objects or methods. A primary justification for an S4 object would be to use objects directly in C++ code. A primary justification for an S4 generic/method would be to dispatch on two arguments.&lt;/p&gt;
+&lt;p&gt;Avoid mixing S3 and S4: S4 methods ignore S3 inheritance and vice-versa.&lt;/p&gt;
+&lt;h3 id=&#34;exceptions&#34;&gt;Exceptions&lt;/h3&gt;
+&lt;p&gt;The coding conventions described above should be followed, unless there is good reason to do otherwise. Exceptions include legacy code and modifying third-party code.&lt;/p&gt;
+&lt;h3 id=&#34;parting-words&#34;&gt;Parting Words&lt;/h3&gt;
+&lt;p&gt;Use common sense and BE CONSISTENT.&lt;br&gt;
+If you are editing code, take a few minutes to look at the code around you and determine its style. If others use spaces around their &lt;code&gt;if&lt;/code&gt; clauses, you should, too. If their comments have little boxes of stars around them, make your comments have little boxes of stars around them, too.&lt;/p&gt;
+&lt;p&gt;The point of having style guidelines is to have a common vocabulary of coding so people can concentrate on &lt;em&gt;what&lt;/em&gt; you are saying, rather than on &lt;em&gt;how&lt;/em&gt; you are saying it. We present global style rules here so people know the vocabulary. But local style is also important. If code you add to a file looks drastically different from the existing code around it, the discontinuity will throw readers out of their rhythm when they go to read it. Try to avoid this. OK, enough writing about writing code; the code itself is much more interesting. Have fun!&lt;/p&gt;
+&lt;h3 id=&#34;references&#34;&gt;References&lt;/h3&gt;
+&lt;p&gt;&lt;a href=&#34;http://www.maths.lth.se/help/R/RCC/&#34;&gt;http://www.maths.lth.se/help/R/RCC/&lt;/a&gt; - R Coding Conventions&lt;br&gt;
+&lt;a href=&#34;http://ess.r-project.org/&#34;&gt;http://ess.r-project.org/&lt;/a&gt; - For emacs users. This runs R in your emacs and has an emacs mode.&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>憎恨必须要得到戒律的锤炼</title>
+        <link>https://example.com/post/151025-way-too-discipline/</link>
+        <pubDate>Sun, 25 Oct 2015 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/151025-way-too-discipline/</guid>
+        <description>&lt;p&gt;现在时间零点十分，戒律先生一晚上都在捣鼓他们那名为「青春献给党」，实为党史答题的活动题目，他一定要弄完才睡觉，不禁让我觉得，他的确是把这一晚献给了党。&lt;/p&gt;
+&lt;p&gt;前一晚上考完了局解，戒律先生心情愉快地向我推荐了一家韩国料理店，说量特别大味道还不错。是的，他判断一家餐厅是否优秀的第一标准是量是否足，实属实用主义之至宝，过日子之不二人选，这一点我应该时刻记住的，但这是后话了——于是今天千里迢迢去了那家店，惊喜的是竟然就在南大本部西边那条小巷里，在一堆动漫店和宠物店的旁边杵着；惊恐的是其实就是彭城一号的芝士年糕火锅，倒确实是靠量大取胜。惊恐大于惊喜，老子信了你的邪，站在十月末的风里，默默地想着怎么回去手撕了他。&lt;/p&gt;
+&lt;p&gt;倒也不怪他，同学 15 年（孽缘啊，菩萨）他的习性很容易摸清。严格守纪，军训先进个人，课堂纪律先锋，戒律先生甚至有一个做事模式：中午 12 点 40 磨咖啡豆，看一集动漫，无论看不看得完，1 点钟准时关掉电脑刷手机动态，30 分钟后洗把脸，整理书包书桌，1 点 45 准时去上课，晚上 9 点整，给家里打电话，日复一日，雷打不动。如果计划被打乱，或者行动顺序被打乱，这一整天也别想见到他的笑容了。如果不了解的话，大概会觉得他是个被设定了程序的机器人了。&lt;/p&gt;
+&lt;p&gt;我倒是非常非常欣赏他的这点性格，或者一定程度上说，我曾经也跟戒律先生有着相同的行为原则，而这个曾经是在高中之前了。小班化的小学和县初中的同化让我觉得，大家似乎都是这么个性格。中考之后，戒律先生去了县重点高中，我去了市重点高中，他保持了他的戒律，我尝到了一些放纵的甜头。这让我在戒律和不羁之间两头望，而他倒仍是唯一信条者。畏首畏尾、选最稳妥的选择、不敢越雷池半步，这些看似都是贬义，对于戒律先生却是必修，有时候我甚至会觉得这么活着真是一点乐趣都没有，但是戒律先生一次又一次地证明了他最稳妥的生活方式会给他带来最稳妥的结果，永远活在正态分布的最密集处，满足却从不失望。无论多喜欢，不实惠的饭不吃，不实用的事情不做，太奢侈的东西不买，为一个不情愿的事情撒一个谁都看得出来的谎，社会主义无产阶级的终极理想。&lt;/p&gt;
+&lt;p&gt;早上盒子发了一个链接给我，「好物凭良心推给你们爱买不买」，大概知道她这条是发给了两个人，于是打开看了一下觉得，首先并不缺耳机，其次实在是没看得上，于是我的实用主义又一次犯了贱——印象最深的上一次，是他俩攒钱买了个银色 Shuffle 给我，而我却因为质量问题各种去店里打算换掉——果断拒绝了之后对面发来「不信算了」「不过你的确没有那么适合它」，可能确实是不怎么适合吧，又或许只是个台阶而已，因为十有八九另一个接收到此链接的人已经下单了，不禁让我想到上一次拒绝她关于「拿一部分钱出来作为活动资金想买什么买什么」的提议，即使脑袋里清楚其实她来戳我不纯粹只是想要拉我入坑这么简单。如果在高中的时候，我也许会不假思索地答应，但是到了大学之后，这种热情倒是一点一点地被削弱了，一次又一次地拒绝了她的各种推荐，反而跟着戒律先生的步伐越走越远。&lt;/p&gt;
+&lt;p&gt;我们彼此因为喜欢同样的东西走到一起，又因为不同的观点渐行渐远，就在三角变成两角，并且觉得也快要失去她的时候，她寄来了一箱热爱，让我觉得那其实是我的错觉，才是我真正的错觉。&lt;/p&gt;
+&lt;p&gt;「憎恨必须要得到戒律的锤炼。」语出暗黑破坏神的猎魔人，虽然毫不搭调，突然这句话就蹦到了脑子里，因为我也开始放弃了各种以前钟爱的游戏们，和我之前「就算是上班了也要攒钱买一台 PS4」背道而驰，但这并不受控。&lt;/p&gt;
+&lt;p&gt;我觉得我活得拘谨且拧巴，戒律先生倒是一如既往地拘谨地跟着他的程序向前走；我觉得我在走一个一圈比一圈大的螺旋，戒律先生依然不管是不是在走螺旋地不回头地向前走。不过这并没有什么不妥，因为并不受控。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>倒也不是很想写什么</title>
+        <link>https://example.com/post/151011-being-cool/</link>
+        <pubDate>Sun, 11 Oct 2015 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/151011-being-cool/</guid>
+        <description>&lt;p&gt;但是已经好久没更新了，再这么下去怕连自己都忘了。总在自带的备忘录里挖坑写标题，而事实上常常是写了标题又两行之后，寻思寻思觉得实在没什么好写，果然还是算了吧，上次发生这种事的时候还是去年，于是整个社交软件都荒废个半年，一般发生这种事情的时候不是过得特别逆就是特别顺，回头想想最近并没有多么不堪，但也谈不上很顺——所以果然是没什么话想说了 =L=&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;十一假期没过好，电脑坏了，准确地说是 iMessage 和 FaceTime 整个挂掉了，无论我怎么重装系统怎么开机重置都于事无补，于是那几天没有睡得很好，原因之一是迫不及待地想要弄清楚缘由，性子急就好像之后的一天之内向 Apple 支持接连投送了 4 个案例一样——是的 Apple 支持，这就是原因之二，劳资怎么就平生第一次对软件层面的问题束手无策了呢，神 tm 不安，此间突然又想到了日本人那一套「不愿做出真正的改革，还在奇怪为何世界离自己而去了」，于是更不安了。&lt;/p&gt;
+&lt;p&gt;之后的事情就越来越偏离我的掌控范围了：跟着客服做着白痴一样的调试（此前我一直嗤之以鼻当时却是认真地跟着步骤一丝不苟或许是因为真的没办法了吧），意料之中地毫无帮助，于是 Capture Data 了一份系统信息传给高级工程师静候秋后问斩佳音。不过客服倒是很负责，中间断了线还诚惶诚恐地发邮件过来询问我是否有别的事情、是否要安排其他时间——哦！一个焦头烂额的客户被温柔地对待了，感动得差点要给 Apple 写表扬信了。&lt;/p&gt;
+&lt;p&gt;过了 24 小时觉得自己果然还是不能这么干等着下去，于是立刻预约了一个回宁次日的 Genius Bar 维修，拉着大爽去了虹悦城那家直营店，不是因为硬件问题而维修，心情已经复杂到没法像当初提 iPhone 6s 货时那样平心静气地欣赏店里的 gay engineers 了（这么个设定其实还挺性感的，又会打扮又是技术宅，以至于后来大爽后知后觉地告诉我，她觉得这里的人颜值虽然不高但是就是觉得很想嫁，LMAO）。&lt;/p&gt;
+&lt;p&gt;最后电脑好了，但是却不知道怎么好的，回过神来的时候那个帮我修电脑的胖葛革已经不见了，这种泽拉图式闪现并 carry 全场的行为帅了我一脸——哦！一个焦头烂额的客户再一次被温柔地对待了，再一次感动得差点要给 Apple 写表扬信了。——但是我最终还是没能知道原因是什么，但是我最终还是没能知道原因是什么。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;以上是我那天写了一半的东西，最后一句话在心里念了大半天也没能找一句话接下去——最近确实是变得不那么有趣了，而我觉得一个人最重要的就是要有趣了。昨天在知乎看到了一个《当你意识到自己很平庸时是怎样的情景》的问题，赞同了一个很挥斥方遒的答案，但是自己心里想的却是，自己当年意识到的时候却是出人意料地四平八稳，一切都没关系了，当一个小透明也未尝不可。但是反观《空之境界》里的黑桐干也，其&lt;del&gt;起源为 Google&lt;/del&gt;「贯彻普通到底，比任何人都不会伤害人」，也是一个透明人，却因为实在是太默默无闻而能够轻易地搜集掌握着所有信息，这就是另一种有趣了——所以一个平庸的人未必无趣，无趣的人便是真的无趣了。&lt;/p&gt;
+&lt;p&gt;今早远在美帝的小新学弟隔着时差发了一条关于华夫饼早餐的说说，让我恍惚地以为他的肉身还在上海。所以一个有趣的人应该是天然无矫饰地广播自己的频率，而我最近却是越活越像一个段子手了。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Dialogues</title>
+        <link>https://example.com/post/150727-untitled/</link>
+        <pubDate>Mon, 27 Jul 2015 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/150727-untitled/</guid>
+        <description>&lt;h3 id=&#34;去买东西&#34;&gt;去买东西&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;妈&lt;/strong&gt;：你看这裙子我当睡衣行吗？&lt;br&gt;
+&lt;strong&gt;我&lt;/strong&gt;：行。&lt;br&gt;
+&lt;strong&gt;妈&lt;/strong&gt;：这个裙子挺宽松的吭，对吧，也不是很像睡衣的样子，晚上都能穿出去散步了感觉。&lt;br&gt;
+&lt;strong&gt;我&lt;/strong&gt;：对。&lt;br&gt;
+&lt;strong&gt;妈&lt;/strong&gt;：你说我是买这个灰色条纹的呢还是买这个带小猫的呢？这个就有点儿太娃气了对吧？这个要是再大一号就好了，在家穿的没必要这么修身了，你看这个就不错，又休闲料子又舒服——你手提的袋子重不重？&lt;br&gt;
+&lt;strong&gt;我&lt;/strong&gt;：重。&lt;br&gt;
+&lt;strong&gt;妈&lt;/strong&gt;：你看，这件就是另外一个感觉了，【略&lt;br&gt;
+&lt;strong&gt;我&lt;/strong&gt;：……&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h3 id=&#34;打风暴英雄&#34;&gt;打风暴英雄&lt;/h3&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;一场&lt;/strong&gt;：泽拉图你去偷蛋啊！&lt;br&gt;
+&lt;strong&gt;另一场&lt;/strong&gt;：法师滚下来集合！&lt;br&gt;
+&lt;strong&gt;另外一场&lt;/strong&gt;：阿巴瑟你傻了吗附身我啊！&lt;br&gt;
+&lt;strong&gt;又另外一场&lt;/strong&gt;：老鹿你奶哪去了！还没 CD 好吗！瞎了吗！&lt;br&gt;
+&lt;strong&gt;我&lt;/strong&gt;：……&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;这年头果真打什么都被人喷，排位什么的还是算了，下次就去当背锅侠好了，如果遇到团战血崩，立刻自行背锅「这波怪我」——这年头背锅侠真是比接盘侠还令人感动涕零。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>You think</title>
+        <link>https://example.com/post/150716-untitled-05/</link>
+        <pubDate>Thu, 16 Jul 2015 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/150716-untitled-05/</guid>
+        <description>&lt;blockquote&gt;
+&lt;p&gt;You think it’s cool to hate things?&lt;br&gt;
+And it’s not. It’s boring.&lt;br&gt;
+Talk about what you love and keep quiet about what you hate.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div style=&#34;text-align: right&#34;&gt; — Liberal Arts &lt;/div&gt;
+</description>
+        </item>
+        <item>
+        <title>看《愤怒的妈妈》</title>
+        <link>https://example.com/post/150506-angry-mom/</link>
+        <pubDate>Wed, 06 May 2015 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/150506-angry-mom/</guid>
+        <description>&lt;p&gt;第四集，永远正能量爆棚的，善良纯真到天真的新任班主任，和被卷入高层权力斗争，陷入校园暴力的女学生，前者挂着爽朗温暖的笑容：「在你们这个年纪啊，什么都看得认真才是正常的，好多现在难过得要死的事情在以后看来都是一阵风而已。」女学生冷冷看着他：「老师你什么都不知道。在你眼里世界或许像诗一样美丽，但在我眼里却是地狱。」不久，女学生因为搜集证据自保而被人从天台推下去灭了口。老师揣着头一晚写给女学生的信悲痛万分，信上说：这个世界没有那么美丽，但也没有那么糟糕。然而地上一滩血迹就在那里说：&lt;strong&gt;不，它就是这样糟糕。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我们总是这样轻视他人的痛苦，「不就是 xxxx 了嘛，有什么呢？以后你就不会觉得难过了。」可是你怎么能够轻浮地用不可知的未来来敷衍一个当下就被痛苦折磨的人？你作为过来人，有资格评论的也是你自己的过去，用你的过去时去否定别人的现在时，无论你说得多么恳切温柔，都是对当事人的凌虐与侮辱。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>如此这般</title>
+        <link>https://example.com/post/150413-feminism/</link>
+        <pubDate>Mon, 13 Apr 2015 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/150413-feminism/</guid>
+        <description>&lt;p&gt;弗洛姆在《爱的艺术》里说：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;大多数人生活在一种幻觉里，以为自己是按照个人的意愿行事，是具有个性的人，是经过大脑的思考形成自己的看法——他们认为他们的观点之所以和大多数人吻合纯粹是巧合罢了。他们甚至认为这正好证明了「他们」的观点是正确的。&lt;br&gt;
+至于他们尚存的、希望自己有个性的要求则通过微不足道的东西得到满足：如在手提箱和毛衣上绣上自己的名字的缩写字母，在玻璃窗口挂上自己的名牌，参加一个政党或者一个学生联合会。「来点别的」这一广告口号证明了在一个几乎不存在个性的社会现实中，人们多么需要个性！&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;谈到「男女平等」，弗洛姆说：&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;我在这里没有必要强调我并不反对男女平等，但是在争取男女平等方面取得的一些积极成果不应该遮住我们的眼目。妇女之所以与男子平等，是因为男女之间的差别消失了。启蒙运动的哲学论点——灵魂是不分性别的——被广泛使用。性别的两极消失了……男子和妇女完全相同，而不是作为对立的两极而平等。现代社会鼓吹实现非个性化的平等理想，因为这个社会需要「人——原子」，这些人原子相互之间没有区别，汇集起来也能毫无摩擦地顺利发挥作用，他们都服从同一个命令，尽管如此，每个人却都确信他们是在按自己的意愿办事。 就像现代化的大规模生产要求产品规格化，社会的发展也要求人的规格化，并把这称为「平等」。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;各种争取权益运动，女权也好，LGBT 也好，这些都是以「群体」为单位在进行着，这个群体的形象在不断被他们自己的「主张」塑造成形，然而个体，个体被集体掩盖了。这就是弗洛姆想说的东西，在大声疾呼这个意义上的平等时，也在否定自我的特性。&lt;/p&gt;
+&lt;p&gt;所以女权不该是「男性能做的&lt;strong&gt;我也必须能做&lt;/strong&gt;」，而是，「&lt;strong&gt;我的确和你不一样&lt;/strong&gt;，但我和你一样有追求自己生活的权利。」所以我一贯坚持的就是，所有这些运动都要还原成对个体的尊重。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>谁不知道你是个大好人</title>
+        <link>https://example.com/post/150109-being-a-goodman/</link>
+        <pubDate>Fri, 09 Jan 2015 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/150109-being-a-goodman/</guid>
+        <description>&lt;p&gt;值得一提的是，这里的好人并不指被发了好人卡，事实上，他倒是发了不少姑娘好人卡——也并不是他的错，而是他的人实在太好了——他的好在于体贴，用我的话来讲，就是连走夜路的时候看见前面女生独自一人，为了不从身边经过的时候吓到她，他都会事先在身后轻轻地假装自己在咳嗽告知对方。&lt;/p&gt;
+&lt;p&gt;好人先生不光心眼儿好，性格也很好，自然而然地，他有了很多真诚对他的朋友。在众多朋友中，苦水小姐算是最真诚的朋友之一，她的真诚体现在呃……自己一有不顺心的事儿，第一时间就打电话给好人先生倒苦水。每次接到电话，好人先生就绞尽脑汁地给她灌鸡汤，一灌就是好几年。&lt;/p&gt;
+&lt;p&gt;新年之前的某日，好人先生心情不是非常晴朗，眼看着要跨年了手头的事情却怎么也做不完。某个瞬间，好人先生忙得焦头烂额的时候脑子里一道光闪现——千万不要在这个时候接到苦水小姐的电话。念头刚一闪过，大难临头了。好人先生硬着头皮接起电话，边忙边心不在焉地应和着电话那头。很显然电话那头听出了他的敷衍，说，你怎么这么爱答不理的？好人先生不带任何情绪色彩地说，我堆了好多事儿还没做完今天要干完呢。&lt;/p&gt;
+&lt;p&gt;苦水小姐：说得好像我很闲一样。&lt;/p&gt;
+&lt;p&gt;好人先生：不闲你挂电话啊。&lt;/p&gt;
+&lt;p&gt;苦水小姐：好啊挂就挂。&lt;/p&gt;
+&lt;p&gt;挂了电话，好人先生难得地生气了，心想对方怎么就这么自私呢，于是在群里抱怨了几句。这个时候有个人义愤填膺地发言说，这种专倒情绪垃圾的朋友不要也罢，必须拉黑，物理拉黑！好人先生正在气头上，还真就拉黑了她。&lt;/p&gt;
+&lt;p&gt;过了几天之后，消了气的苦水小姐通过各种旁门左道，打听好人先生的消息。我听说了之后就去找了好人先生。&lt;/p&gt;
+&lt;p&gt;你真把她拉黑了啊？&lt;/p&gt;
+&lt;p&gt;是这样的。&lt;/p&gt;
+&lt;p&gt;是谁让你拉黑的啊？&lt;/p&gt;
+&lt;p&gt;特么你啊！&lt;/p&gt;
+&lt;p&gt;果然是我，不愧是我。对于朋友这种，说白了双向互利的关系，怎么能只有一方扔垃圾另一方收拾垃圾呢？这个比喻就算是在宿舍也是说不过去的。好人先生问我，是不是有点儿过了啊？&lt;/p&gt;
+&lt;p&gt;你看，好人先生就好在这儿，和自己的过错相比他就从来不会过分苛责对方的过错，事情到了最后，总会被自己的「自省」翻过去。于是他把苦水小姐从黑名单里拉了出来。苦水小姐在确认了双方都还好的情况下，说了第一句话：&lt;/p&gt;
+&lt;p&gt;没事儿啊？那就好。哎我跟你讲哦，我最近特别倒霉…&lt;/p&gt;
+&lt;p&gt;完蛋了。好人先生后背发凉，手一抖再一次把她扔进了黑名单。&lt;/p&gt;
+&lt;p&gt;丁丁张曾经这么讲：就像一件衣服一样，穿着不对劲就是不对劲，无论放了多少年，它都不对劲。更何况是这种专门倒情绪垃圾给你的所谓朋友呢？把你当心理医生并不是看重你的技巧——谁不知道你是个大好人呢？&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>现代诗一首</title>
+        <link>https://example.com/post/150107-untitled-04/</link>
+        <pubDate>Wed, 07 Jan 2015 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/150107-untitled-04/</guid>
+        <description>&lt;p&gt;今天本&lt;/p&gt;
+&lt;p&gt;帅哥修了胡子&lt;/p&gt;
+&lt;p&gt;简直&lt;/p&gt;
+&lt;p&gt;攻爆了&lt;/p&gt;
+&lt;p&gt;好多少女&lt;/p&gt;
+&lt;p&gt;都想跟我结婚&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>苟日新日日新又日新</title>
+        <link>https://example.com/post/150104-everyday-update/</link>
+        <pubDate>Sun, 04 Jan 2015 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/150104-everyday-update/</guid>
+        <description>&lt;p&gt;这句话在这个时代来看非常对，唯一的问题在于商朝的人们是怎么创造出这句话的。能想到的理由之一是他们把青铜鼎花样翻新熔了再铸铸了再熔，得到了技术和艺术的双重升华，然后被这一场景萌了一下之后再也想不起其他理由了。&lt;/p&gt;
+&lt;p&gt;作为一个更新狂热者，最不能够理解的就是那些 App Store 堆了一堆数字不升级的行为。他们的理由是，怕升级之后不好用。而我唯一用来反驳的理由是，所谓升级只会更好用。&lt;/p&gt;
+&lt;p&gt;纠结小姐是一个惧怕更新的人，每一次系统上有大的变动，都要给我打电话表示自己的苦恼，每次的结果都是被我怂恿着去更新了之后，再次打电话来诉苦，理由无非是快要受不了更新后的丑界面了。几次三番之后她失去了斗志，我也失去了说服她去更新的耐心。直到有一天她又打电话来抱怨不升级了之后，QQ 都没法跟别人一样网络通话了，吓得我赶紧转了个话题，问候了她的考试成绩。&lt;/p&gt;
+&lt;p&gt;作为一个时代较前沿的人，5 年前她非常期待着自己有一些新变化，想改变，想留学。5 年之后当大家都开始着手准备各种交换项目的时候，纠结小姐再次纠结了，这个时候的她觉得只要不变得更坏，不改变，其实也没什么吧，现在的她太怕再去融入陌生环境了。&lt;/p&gt;
+&lt;p&gt;在很久没有了联络之后，就在我以为她还需要一点时间自己静一静的时候，新年之前，Gmail 被防火长城封锁了。正在和一个外国男生相聊甚欢期的纠结小姐发短信来求破解方法，在装上了拖了很久都犹豫不决的 VPN 之后，她再次和这个世界的前沿接通。&lt;/p&gt;
+&lt;p&gt;纠结小姐最终还是更新了她的世界。我想说的是，为什么要去等呢？为了不想更新而矫情所带来的犹豫只能是拖累，旧程序堆起来的是旧手机，旧人打造的不是念旧而是一个老旧的你，能更新就绝不凑合，可惜的是纠结小姐大概依旧不懂得这个道理。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>Theory of People Don’t Change</title>
+        <link>https://example.com/post/141206-people-dont-change/</link>
+        <pubDate>Sat, 06 Dec 2014 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/141206-people-dont-change/</guid>
+        <description>&lt;p&gt;有时候看见别人跟自己不一样的状态，就觉得很酷，就模仿他的一言一行，直到周围人意识到我最近有了改变，就这样一直重复循环，最后变得越来越离谱，就说我成长了不少。&lt;/p&gt;
+&lt;p&gt;傻，哪儿变了？最本质的学人精体质永远不会变。&lt;/p&gt;
+&lt;p&gt;《童话镇》里邪恶皇后弃恶从良，无论怎么变，从来没改变过还是对不可及的爱的控制与渴望，而恶只是表象。&lt;/p&gt;
+&lt;p&gt;此之谓 people don’t change。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>从今天起</title>
+        <link>https://example.com/post/140919-untitled-03/</link>
+        <pubDate>Fri, 19 Sep 2014 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/140919-untitled-03/</guid>
+        <description>&lt;p&gt;做一个骄傲的人&lt;/p&gt;
+&lt;p&gt;喂柴劈马&lt;/p&gt;
+&lt;p&gt;加油&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>破功</title>
+        <link>https://example.com/post/140919-bad-luck-continues/</link>
+        <pubDate>Fri, 19 Sep 2014 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/140919-bad-luck-continues/</guid>
+        <description>&lt;p&gt;运气差的时候总会一直倒霉下去的，辛苦经营的暑期实践团队优秀名额因为所处年级低而被让出去，心理变态的辅导员一句话让这辛苦了一个星期的评定细则白瞎了，坚持不在群里出现却在最后一刻把电脑拿到床上的时候误触标点和回车。&lt;/p&gt;
+&lt;p&gt;疯了。主席团 6 个成员 5 个辞职，班长们半数欲辞，学生会部长悉数表态再来一次真的招架不住，与我相约请辞。有什么大不了的呢？&lt;/p&gt;
+&lt;p&gt;又看到了华侨大学的电梯事件，那个男生缺氧抽搐的样子又让我想起来了昨天那只屠杀失败的半死蟾蜍，抽搐，抽搐，最终我凭着意志让手不抖让呼吸平静，依旧很难过。盒曾经说她爹手术台上没救回来一个人，战战兢兢了一个星期，我以为自己这么没心没肺肯定不会这么脆弱，事实证明这跟脆弱没有半毛钱关系。&lt;/p&gt;
+&lt;p&gt;改口了，活着才是最牛逼的信仰。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>亲密这个词</title>
+        <link>https://example.com/post/140901-untitled-02/</link>
+        <pubDate>Mon, 01 Sep 2014 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/140901-untitled-02/</guid>
+        <description>&lt;blockquote&gt;
+&lt;p&gt;意思是：给你我的心和灵魂。磨碎做成汉堡包，供你品尝。既令人渴望，又令人恐惧，很难让人与之相处。但又不可或缺。&lt;/p&gt;
+&lt;p&gt;亲密还跟三个词密不可分，亲情，友情和爱情。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div style=&#34;text-align: right&#34;&gt; — GREY’S ANATOMY &lt;/div&gt;
+</description>
+        </item>
+        <item>
+        <title>お元気ですか？</title>
+        <link>https://example.com/post/140831-untitled-01/</link>
+        <pubDate>Sun, 31 Aug 2014 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/140831-untitled-01/</guid>
+        <description>&lt;img src="https://example.com/post/image/140831-cover.png" alt="Featured image of post お元気ですか？" /&gt;&lt;blockquote&gt;
+&lt;p&gt;お元気ですか？&lt;br&gt;
+私はお 元気です!&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;没错，就是这种说不出来的感觉。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>难看是自己的事儿</title>
+        <link>https://example.com/post/140825-why-being-ugly/</link>
+        <pubDate>Mon, 25 Aug 2014 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/140825-why-being-ugly/</guid>
+        <description>&lt;p&gt;继在公交车被身边美女姐姐意外地&lt;del&gt;靠着肩膀&lt;/del&gt;睡着了事件之后，又见到一名中年男子，也算是开了眼界，两手举抓着扶手，手上拿着一个粉红底色的塑料男科广告扇，上书「坚持不泄」，于是这把扇子就这么不体面地晃荡了一路。&lt;/p&gt;
+&lt;p&gt;其实闲时公交车上看到的哪是乘客，分明是人生难看的后半段：不讲究的中年体态让他们两手撑着扶手，屁股后撅，上衣盖不住裤子没遮住的藏蓝色内裤。强悍的地心引力让他们不小心地，全力地坐在座位上。又或者，阅历太多以至于在车上吊起嗓子唱戏，认为是一种诗意而且不羁的体验。&lt;/p&gt;
+&lt;p&gt;小时候谁也不想成为体态类似，举止类似，难以区分的人。作文里也写得头头是道，反而越活越是不在乎，那些对自己和周围都不在乎没有要求的人注定要在这样的公交车上相逢相望，谁也不觉得谁不妥。&lt;/p&gt;
+&lt;p&gt;并不是要炫耀给谁看，活得面目干净头脑清醒，或者说，活得精致一点也不为过。并不是所有人都能对自己满意，自己过得好一点总是没错的。对于那些动不动给别人贴上土豪标签的人，不是所有老百姓都要活得灰头土脸，也不是手里拿一个「坚持不泄」的广告扇就是朴素节俭。&lt;/p&gt;
+&lt;p&gt;至于收音机外放，说不定还能成为隔音耳机的广告素材呢哈哈哈。&lt;/p&gt;
+</description>
+        </item>
+        <item>
+        <title>一首歌</title>
+        <link>https://example.com/post/140823-one-song/</link>
+        <pubDate>Sat, 23 Aug 2014 00:00:00 +0000</pubDate>
+        
+        <guid>https://example.com/post/140823-one-song/</guid>
+        <description>&lt;p&gt;于此同时，初中的我在晚上 9 点，在暴雨里，从校门口骑着自行车疯狂往家骑，路况极佳，轮胎轧过积水一路火花带闪电。&lt;/p&gt;
+&lt;p&gt;——现在零点二十四分了，那个我已经睡着了吧。&lt;/p&gt;
+
+&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
+  &lt;iframe loading=&#34;lazy&#34; src=&#34;https://www.youtube.com/embed/9ARnQm0_vXc&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; allowfullscreen title=&#34;YouTube Video&#34;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
+
+&lt;blockquote&gt;
+&lt;p&gt;异乡的我，不知畏寒，思落心晟，捶我心肝&lt;br&gt;
+故乡的山，放阮思念，血流花草，汗流寒冬&lt;br&gt;
+红色的梦，青天在哪，世事说啥，伤痕醒了&lt;br&gt;
+逝去笑梦，想起亲人，讲的思念，风声知道&lt;br&gt;
+风中的人，风中的我，风中的梦，看无初红&lt;br&gt;
+风中的声，风中的命，风中的窗，孤单剩啥&lt;br&gt;
+雨中的歌，雨滴空梦，雨声若响，雨落信纸&lt;br&gt;
+雨中的声，雨起雨夙，雨想起我，风中的人&lt;br&gt;
+把我的故乡还给我&lt;/p&gt;
+&lt;/blockquote&gt;
+</description>
+        </item>
+        
+    </channel>
+</rss>

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head><meta charset='utf-8'>
+<meta name='viewport' content='width=device-width, initial-scale=1'><meta name='description' content='A copy for linting reference.'><title>Google&#39;s R Style Guide</title>
+
+<link rel='canonical' href='https://example.com/post/190521-r-style-guide/'>
+
+<link rel="stylesheet" href="/scss/style.min.css"><meta property='og:title' content='Google&#39;s R Style Guide'>
+<meta property='og:description' content='A copy for linting reference.'>
+<meta property='og:url' content='https://example.com/post/190521-r-style-guide/'>
+<meta property='og:site_name' content='derbalkon&#39;s'>
+<meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2019-05-21T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2019-05-21T00:00:00&#43;00:00'/><meta property='og:image' content='https://example.com/post/image/cover-r-style-guide.jpg' />
+<meta name="twitter:title" content="Google&#39;s R Style Guide">
+<meta name="twitter:description" content="A copy for linting reference."><meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content='https://example.com/post/image/cover-r-style-guide.jpg' /><script>
+    (function(d) {
+      var config = {
+        kitId: 'jvh6pxp',
+        scriptTimeout: 3000,
+        async: true
+      },
+      h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+    })(document);
+  </script>
+    </head>
+    <body class="">
+    <script>
+        (function() {
+            const colorSchemeKey = 'StackColorScheme';
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
+        })();
+    </script><script>
+    (function() {
+        const colorSchemeKey = 'StackColorScheme';
+        const colorSchemeItem = localStorage.getItem(colorSchemeKey);
+        const supportDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches === true;
+
+        if (colorSchemeItem == 'dark' || colorSchemeItem === 'auto' && supportDarkMode) {
+            
+
+            document.body.dataset.scheme = 'dark';
+        } else {
+            document.body.dataset.scheme = 'light';
+        }
+    })();
+</script><div class="container main-container flex on-phone--column compact article-page with-toolbar">
+            <aside class="sidebar left-sidebar sticky">
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="切换菜单">
+        <span class="hamburger-box">
+            <span class="hamburger-inner"></span>
+        </span>
+    </button>
+
+    <header class="site-info">
+        
+            <figure class="site-avatar">
+                
+                    
+                    
+                    
+                        
+                        <img src="/img/avatar_hu45b56bef5a1f3fc63e7ae9d71e5dd5f3_21204_300x0_resize_box_2.png" width="300"
+                            height="300" class="site-logo" loading="lazy" alt="Avatar">
+                    
+                
+
+                
+                    <span class="emoji">🧊</span>
+                
+            </figure>
+        
+        <h1 class="site-name"><a href="https://example.com">derbalkon&#39;s</a></h1>
+        <h2 class="site-description">Lorem ipsum</h2>
+    </header>
+
+    <ol class="menu" id="main-menu">
+        
+        
+        
+
+        <li >
+            <a href='/'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-home" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="5 12 3 12 12 3 21 12 19 12" />
+  <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7" />
+  <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6" />
+</svg>
+
+
+
+                
+                <span>主页</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/post'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-archive" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <rect x="3" y="4" width="18" height="4" rx="2" />
+  <path d="M5 8v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-10" />
+  <line x1="10" y1="12" x2="14" y2="12" />
+</svg>
+
+
+
+                
+                <span>所有文章</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/about'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="7" r="4" />
+  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+</svg>
+
+
+
+                
+                <span>关于我</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='https://files.wrrrr.me'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-server" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+  <rect x="3" y="4" width="18" height="8" rx="3" />
+  <rect x="3" y="12" width="18" height="8" rx="3" />
+  <line x1="7" y1="8" x2="7" y2="8.01" />
+  <line x1="7" y1="16" x2="7" y2="16.01" />
+</svg>
+                
+                <span>货仓</span>
+            </a>
+        </li>
+        
+        
+
+        <li >
+            <a href='/search'>
+                
+                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="10" cy="10" r="7" />
+  <line x1="21" y1="21" x2="15" y2="15" />
+</svg>
+
+
+
+                
+                <span>搜索</span>
+            </a>
+        </li>
+        
+
+        
+            <li id="dark-mode-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="8" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-toggle-right" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="16" cy="12" r="2" />
+  <rect x="2" y="6" width="20" height="12" rx="6" />
+</svg>
+
+
+
+                <span>暗色模式</span>
+            </li>
+        
+    </ol>
+</aside>
+
+            <main class="main full-width">
+    <div id="article-toolbar">
+        <a href="https://example.com" class="back-home">
+            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-left" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <polyline points="15 6 9 12 15 18" />
+</svg>
+
+
+
+            <span>Back</span>
+        </a>
+    </div>
+
+    <article class="has-image main-article">
+    <header class="article-header">
+        <div class="article-image">
+            <a href="/post/190521-r-style-guide/">
+                
+                    <img src="/post/image/cover-r-style-guide.jpg" loading="lazy" alt="Featured image of post Google&#39;s R Style Guide" />
+                
+            </a>
+        </div>
+    
+
+    <div class="article-details">
+    
+
+    <h2 class="article-title">
+        <a href="/post/190521-r-style-guide/">Google&#39;s R Style Guide</a>
+    </h2>
+
+    
+    <h3 class="article-subtitle">
+        A copy for linting reference.
+    </h3>
+    <footer class="article-time">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <polyline points="12 7 12 12 15 15" />
+</svg>
+
+
+
+        <time class="article-time--published">May 21, 2019</time>
+    </footer></div>
+</header>
+
+    <section class="article-content">
+    <p>R is a high-level programming language used primarily for statistical computing and graphics. The goal of the R Programming Style Guide is to make our R code easier to read, share, and verify. The rules below were designed in collaboration with the entire R user community at Google.</p>
+<h2 id="summary-r-style-rules">Summary: R Style Rules</h2>
+<ol>
+<li>File Names: end in <code>.R</code></li>
+<li>Identifiers: <code>variable.name</code>, <code>FunctionName</code>, <code>kConstantName</code></li>
+<li>Line Length: maximum 80 characters</li>
+<li>Indentation: two spaces, no tabs</li>
+<li>Spacing</li>
+<li>Curly Braces: first on same line, last on own line</li>
+<li>Assignment: use <code>&lt;-</code>, not <code>=</code></li>
+<li>Semicolons: don&rsquo;t use them</li>
+<li>General Layout and Ordering</li>
+<li>Commenting Guidelines: all comments begin with <code>#</code> followed by a space; inline comments need two spaces before the <code>#</code></li>
+<li>Function Definitions and Calls</li>
+<li>Function Documentation</li>
+<li>Example Function</li>
+<li>TODO Style: <code>TODO(username)</code></li>
+</ol>
+<h2 id="summary-r-language-rules">Summary: R Language Rules</h2>
+<ol>
+<li>attach: avoid using it</li>
+<li>Functions: errors should be raised using <code>stop()</code></li>
+<li>Objects and Methods: avoid S4 objects and methods when possible; never mix S3 and S4</li>
+</ol>
+<h3 id="notation-and-naming">Notation and Naming</h3>
+<h4 id="file-names">File Names</h4>
+<p>File names should end in .R and, of course, be meaningful.<br>
+GOOD: <code>predict_ad_revenue.R</code><br>
+BAD: <code>foo.R</code></p>
+<h4 id="identifiers">Identifiers</h4>
+<p>Don&rsquo;t use underscores (<code>_</code>) or hyphens (<code>-</code>) in identifiers. Identifiers should be named according to the following conventions. Variable names should have all lower case letters and words separated with dots (<code>.</code>); function names have initial capital letters and no dots (CapWords); constants are named like functions but with an initial <code>k</code>.</p>
+<ul>
+<li><code>variable.name</code><br>
+GOOD: <code>avg.clicks</code><br>
+BAD: <code>avg_Clicks</code> , <code>avgClicks</code></li>
+<li><code>FunctionName</code><br>
+GOOD: <code>CalculateAvgClicks</code><br>
+BAD: <code>calculate_avg_clicks</code> , <code>calculateAvgClicks</code><br>
+Make function names verbs.<br>
+<em>Exception: When creating a classed object, the function name (constructor) and class should match (e.g., lm).</em></li>
+<li><code>kConstantName</code></li>
+</ul>
+<h3 id="syntax">Syntax</h3>
+<h4 id="line-length">Line Length</h4>
+<p>The maximum line length is 80 characters.</p>
+<h4 id="indentation">Indentation</h4>
+<p>When indenting your code, use two spaces. Never use tabs or mix tabs and spaces.<br>
+<em>Exception: When a line break occurs inside parentheses, align the wrapped line with the first character inside the parenthesis.</em></p>
+<h4 id="spacing">Spacing</h4>
+<p>Place spaces around all binary operators (<code>=</code>, <code>+</code>, <code>-</code>, <code>&lt;-</code>, etc.).<br>
+<em>Exception: Spaces around <code>=</code>&rsquo;s are optional when passing parameters in a function call.</em></p>
+<p>Do not place a space before a comma, but always place one after a comma.</p>
+<p>GOOD:</p>
+<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="n">tabPrior</span> <span class="o">&lt;-</span> <span class="nf">table</span><span class="p">(</span><span class="n">df[df</span><span class="o">$</span><span class="n">daysFromOpt</span> <span class="o">&lt;</span> <span class="m">0</span><span class="p">,</span> <span class="s">&#34;campaignid&#34;</span><span class="n">]</span><span class="p">)</span>
+<span class="n">total</span> <span class="o">&lt;-</span> <span class="nf">sum</span><span class="p">(</span><span class="n">x[</span><span class="p">,</span> <span class="m">1</span><span class="n">]</span><span class="p">)</span>
+<span class="n">total</span> <span class="o">&lt;-</span> <span class="nf">sum</span><span class="p">(</span><span class="n">x[1</span><span class="p">,</span> <span class="n">]</span><span class="p">)</span>
+</code></pre></div><p>BAD:</p>
+<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="n">tabPrior</span> <span class="o">&lt;-</span> <span class="nf">table</span><span class="p">(</span><span class="n">df[df</span><span class="o">$</span><span class="n">daysFromOpt</span><span class="o">&lt;</span><span class="m">0</span><span class="p">,</span> <span class="s">&#34;campaignid&#34;</span><span class="n">]</span><span class="p">)</span>  <span class="c1"># Needs spaces around &#39;&lt;&#39;</span>
+<span class="n">tabPrior</span> <span class="o">&lt;-</span> <span class="nf">table</span><span class="p">(</span><span class="n">df[df</span><span class="o">$</span><span class="n">daysFromOpt</span> <span class="o">&lt;</span> <span class="m">0</span><span class="p">,</span><span class="s">&#34;campaignid&#34;</span><span class="n">]</span><span class="p">)</span>  <span class="c1"># Needs a space after the comma</span>
+<span class="n">tabPrior</span><span class="o">&lt;-</span> <span class="nf">table</span><span class="p">(</span><span class="n">df[df</span><span class="o">$</span><span class="n">daysFromOpt</span> <span class="o">&lt;</span> <span class="m">0</span><span class="p">,</span> <span class="s">&#34;campaignid&#34;</span><span class="n">]</span><span class="p">)</span>  <span class="c1"># Needs a space before &lt;-</span>
+<span class="n">tabPrior</span><span class="o">&lt;-</span><span class="nf">table</span><span class="p">(</span><span class="n">df[df</span><span class="o">$</span><span class="n">daysFromOpt</span> <span class="o">&lt;</span> <span class="m">0</span><span class="p">,</span> <span class="s">&#34;campaignid&#34;</span><span class="n">]</span><span class="p">)</span>  <span class="c1"># Needs spaces around &lt;-</span>
+<span class="n">total</span> <span class="o">&lt;-</span> <span class="nf">sum</span><span class="p">(</span><span class="n">x[</span><span class="p">,</span><span class="m">1</span><span class="n">]</span><span class="p">)</span>  <span class="c1"># Needs a space after the comma</span>
+<span class="n">total</span> <span class="o">&lt;-</span> <span class="nf">sum</span><span class="p">(</span><span class="n">x[</span> <span class="p">,</span><span class="m">1</span><span class="n">]</span><span class="p">)</span>  <span class="c1"># Needs a space after the comma, not before</span>
+</code></pre></div><p>Place a space before left parenthesis, except in a function call.</p>
+<p>GOOD:</p>
+<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="nf">if </span><span class="p">(</span><span class="n">debug</span><span class="p">)</span>
+</code></pre></div><p>BAD:</p>
+<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="nf">if</span><span class="p">(</span><span class="n">debug</span><span class="p">)</span>
+</code></pre></div><p>Extra spacing (i.e., more than one space in a row) is okay if it improves alignment of equals signs or arrows (<code>&lt;-</code>).</p>
+<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="nf">plot</span><span class="p">(</span><span class="n">x</span>    <span class="o">=</span> <span class="n">xCoord</span><span class="p">,</span>
+     <span class="n">y</span>    <span class="o">=</span> <span class="n">dataMat[</span><span class="p">,</span> <span class="nf">makeColName</span><span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="n">ptiles[1]</span><span class="p">,</span> <span class="s">&#34;roiOpt&#34;</span><span class="p">)</span><span class="n">]</span><span class="p">,</span>
+     <span class="n">ylim</span> <span class="o">=</span> <span class="n">ylim</span><span class="p">,</span>
+     <span class="n">xlab</span> <span class="o">=</span> <span class="s">&#34;dates&#34;</span><span class="p">,</span>
+     <span class="n">ylab</span> <span class="o">=</span> <span class="n">metric</span><span class="p">,</span>
+     <span class="n">main</span> <span class="o">=</span> <span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="s">&#34; for 3 samples &#34;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">&#34;&#34;</span><span class="p">)))</span>
+</code></pre></div><p>Do not place spaces around code in parentheses or square brackets.<br>
+Exception: Always place a space after a comma.</p>
+<p>GOOD:</p>
+<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="nf">if </span><span class="p">(</span><span class="n">debug</span><span class="p">)</span>
+<span class="n">x[1</span><span class="p">,</span> <span class="n">]</span>
+</code></pre></div><p>BAD:</p>
+<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="nf">if </span><span class="p">(</span> <span class="n">debug</span> <span class="p">)</span>  <span class="c1"># No spaces around debug</span>
+<span class="n">x[1</span><span class="p">,</span><span class="n">]</span>  <span class="c1"># Needs a space after the comma </span>
+</code></pre></div><h4 id="curly-braces">Curly Braces</h4>
+<p>An opening curly brace should never go on its own line; a closing curly brace should always go on its own line. You may omit curly braces when a block consists of a single statement; however, you must consistently either use or not use curly braces for single statement blocks.</p>
+<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="nf">if </span><span class="p">(</span><span class="nf">is.null</span><span class="p">(</span><span class="n">ylim</span><span class="p">))</span> <span class="p">{</span>
+  <span class="n">ylim</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0.06</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="nf">xor </span><span class="p">(</span><span class="n">but</span> <span class="n">not</span> <span class="n">both</span><span class="p">)</span>
+
+<span class="nf">if </span><span class="p">(</span><span class="nf">is.null</span><span class="p">(</span><span class="n">ylim</span><span class="p">))</span>
+  <span class="n">ylim</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0.06</span><span class="p">)</span>
+</code></pre></div><p>Always begin the body of a block on a new line.</p>
+<p>BAD:</p>
+<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="nf">if </span><span class="p">(</span><span class="nf">is.null</span><span class="p">(</span><span class="n">ylim</span><span class="p">))</span> <span class="n">ylim</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0.06</span><span class="p">)</span> 
+<span class="nf">if </span><span class="p">(</span><span class="nf">is.null</span><span class="p">(</span><span class="n">ylim</span><span class="p">))</span> <span class="p">{</span><span class="n">ylim</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0.06</span><span class="p">)}</span>
+</code></pre></div><h4 id="assignment">Assignment</h4>
+<p>Use <code>&lt;-</code>, not <code>=</code>, for assignment.</p>
+<p>GOOD:<br>
+<code>x &lt;- 5</code></p>
+<p>BAD:<br>
+<code>x = 5</code></p>
+<h4 id="semicolons">Semicolons</h4>
+<p>Do not terminate your lines with semicolons or use semicolons to put more than one command on the same line. (Semicolons are not necessary, and are omitted for consistency with other Google style guides.)</p>
+<h3 id="organization">Organization</h3>
+<h4 id="general-layout-and-ordering">General Layout and Ordering</h4>
+<p>If everyone uses the same general ordering, we&rsquo;ll be able to read and understand each other&rsquo;s scripts faster and more easily.</p>
+<ul>
+<li>Copyright statement comment</li>
+<li>Author comment</li>
+<li>File description comment, including purpose of program, inputs, and outputs</li>
+<li><code>source()</code> and <code>library()</code> statements</li>
+<li>Function definitions</li>
+<li>Executed statements, if applicable (e.g., <code>print</code>, <code>plot</code>)</li>
+</ul>
+<p>Unit tests should go in a separate file named <code>originalfilename_unittest.R</code>.</p>
+<h4 id="commenting-guidelines">Commenting Guidelines</h4>
+<p>Comment your code. Entire commented lines should begin with # and one space.</p>
+<p>Short comments can be placed after code preceded by two spaces, #, and then one space.</p>
+<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="c1"># Create histogram of frequency of campaigns by pct budget spent.</span>
+
+<span class="nf">hist</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">pctSpent</span><span class="p">,</span>
+     <span class="n">breaks</span> <span class="o">=</span> <span class="s">&#34;scott&#34;</span><span class="p">,</span>  <span class="c1"># method for choosing number of buckets</span>
+     <span class="n">main</span>   <span class="o">=</span> <span class="s">&#34;Histogram: fraction budget spent by campaignid&#34;</span><span class="p">,</span>
+     <span class="n">xlab</span>   <span class="o">=</span> <span class="s">&#34;Fraction of budget spent&#34;</span><span class="p">,</span>
+     <span class="n">ylab</span>   <span class="o">=</span> <span class="s">&#34;Frequency (count of campaignids)&#34;</span><span class="p">)</span>
+</code></pre></div><h4 id="function-definitions-and-calls">Function Definitions and Calls</h4>
+<p>Function definitions should first list arguments without default values, followed by those with default values.</p>
+<p>In both function definitions and function calls, multiple arguments per line are allowed; line breaks are only allowed between assignments.</p>
+<p>GOOD:</p>
+<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="n">PredictCTR</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">property</span><span class="p">,</span> <span class="n">numDays</span><span class="p">,</span>
+                       <span class="n">showPlot</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
+</code></pre></div><p>BAD:</p>
+<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="n">PredictCTR</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">property</span><span class="p">,</span> <span class="n">numDays</span><span class="p">,</span> <span class="n">showPlot</span> <span class="o">=</span>
+                       <span class="kc">TRUE</span><span class="p">)</span>
+</code></pre></div><p>Ideally, unit tests should serve as sample function calls (for shared library routines).</p>
+<h4 id="function-documentation">Function Documentation</h4>
+<p>Functions should contain a comments section immediately below the function definition line. These comments should consist of a one-sentence description of the function; a list of the function&rsquo;s arguments, denoted by Args:, with a description of each (including the data type); and a description of the return value, denoted by Returns:. The comments should be descriptive enough that a caller can use the function without reading any of the function&rsquo;s code.</p>
+<h4 id="example-function">Example Function</h4>
+<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="n">CalculateSampleCovariance</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1"># Computes the sample covariance between two vectors.</span>
+  <span class="c1">#</span>
+  <span class="c1"># Args:</span>
+  <span class="c1">#   x: One of two vectors whose sample covariance is to be calculated.</span>
+  <span class="c1">#   y: The other vector. x and y must have the same length, greater than one,</span>
+  <span class="c1">#      with no missing values.</span>
+  <span class="c1">#   verbose: If TRUE, prints sample covariance; if not, not. Default is TRUE.</span>
+  <span class="c1">#</span>
+  <span class="c1"># Returns:</span>
+  <span class="c1">#   The sample covariance between x and y.</span>
+  <span class="n">n</span> <span class="o">&lt;-</span> <span class="nf">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="c1"># Error handling</span>
+  <span class="nf">if </span><span class="p">(</span><span class="n">n</span> <span class="o">&lt;=</span> <span class="m">1</span> <span class="o">||</span> <span class="n">n</span> <span class="o">!=</span> <span class="nf">length</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nf">stop</span><span class="p">(</span><span class="s">&#34;Arguments x and y have invalid lengths: &#34;</span><span class="p">,</span>
+         <span class="nf">length</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="s">&#34; and &#34;</span><span class="p">,</span> <span class="nf">length</span><span class="p">(</span><span class="n">y</span><span class="p">),</span> <span class="s">&#34;.&#34;</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="nf">if </span><span class="p">(</span><span class="kc">TRUE</span> <span class="o">%in%</span> <span class="nf">is.na</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">||</span> <span class="kc">TRUE</span> <span class="o">%in%</span> <span class="nf">is.na</span><span class="p">(</span><span class="n">y</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nf">stop</span><span class="p">(</span><span class="s">&#34; Arguments x and y must not have missing values.&#34;</span><span class="p">)</span>
+  <span class="p">}</span>
+  <span class="n">covariance</span> <span class="o">&lt;-</span> <span class="nf">var</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+  <span class="nf">if </span><span class="p">(</span><span class="n">verbose</span><span class="p">)</span>
+    <span class="nf">cat</span><span class="p">(</span><span class="s">&#34;Covariance = &#34;</span><span class="p">,</span> <span class="nf">round</span><span class="p">(</span><span class="n">covariance</span><span class="p">,</span> <span class="m">4</span><span class="p">),</span> <span class="s">&#34;.\n&#34;</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">&#34;&#34;</span><span class="p">)</span>
+  <span class="nf">return</span><span class="p">(</span><span class="n">covariance</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div><h4 id="todo-style">TODO Style</h4>
+<p>Use a consistent style for TODOs throughout your code.<br>
+<code>TODO(username): Explicit description of action to be taken</code></p>
+<h3 id="language">Language</h3>
+<h4 id="attach">Attach</h4>
+<p>The possibilities for creating errors when using attach are numerous. Avoid it.</p>
+<h4 id="functions">Functions</h4>
+<p>Errors should be raised using <code>stop()</code>.</p>
+<h4 id="objects-and-methods">Objects and Methods</h4>
+<p>The S language has two object systems, S3 and S4, both of which are available in R. S3 methods are more interactive and flexible, whereas S4 methods are more formal and rigorous. (For an illustration of the two systems, see Thomas Lumley&rsquo;s &ldquo;Programmer&rsquo;s Niche: A Simple Class, in S3 and S4&rdquo; in R News 4/1, 2004, pgs. 33 - 36: <a href="http://cran.r-project.org/doc/Rnews/Rnews_2004-1.pdf">http://cran.r-project.org/doc/Rnews/Rnews_2004-1.pdf</a>.)</p>
+<p>Use S3 objects and methods unless there is a strong reason to use S4 objects or methods. A primary justification for an S4 object would be to use objects directly in C++ code. A primary justification for an S4 generic/method would be to dispatch on two arguments.</p>
+<p>Avoid mixing S3 and S4: S4 methods ignore S3 inheritance and vice-versa.</p>
+<h3 id="exceptions">Exceptions</h3>
+<p>The coding conventions described above should be followed, unless there is good reason to do otherwise. Exceptions include legacy code and modifying third-party code.</p>
+<h3 id="parting-words">Parting Words</h3>
+<p>Use common sense and BE CONSISTENT.<br>
+If you are editing code, take a few minutes to look at the code around you and determine its style. If others use spaces around their <code>if</code> clauses, you should, too. If their comments have little boxes of stars around them, make your comments have little boxes of stars around them, too.</p>
+<p>The point of having style guidelines is to have a common vocabulary of coding so people can concentrate on <em>what</em> you are saying, rather than on <em>how</em> you are saying it. We present global style rules here so people know the vocabulary. But local style is also important. If code you add to a file looks drastically different from the existing code around it, the discontinuity will throw readers out of their rhythm when they go to read it. Try to avoid this. OK, enough writing about writing code; the code itself is much more interesting. Have fun!</p>
+<h3 id="references">References</h3>
+<p><a href="http://www.maths.lth.se/help/R/RCC/">http://www.maths.lth.se/help/R/RCC/</a> - R Coding Conventions<br>
+<a href="http://ess.r-project.org/">http://ess.r-project.org/</a> - For emacs users. This runs R in your emacs and has an emacs mode.</p>
+
+</section>
+
+
+    <footer class="article-footer">
+    
+
+    
+    <section class="article-copyright">
+        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-copyright" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+  <path stroke="none" d="M0 0h24v24H0z"/>
+  <circle cx="12" cy="12" r="9" />
+  <path d="M14.5 9a3.5 4 0 1 0 0 6" />
+</svg>
+
+
+
+        <span>Licensed under CC BY-NC-SA 4.0</span>
+    </section>
+    </footer>
+
+    
+</article>
+
+    <aside class="related-contents--wrapper">
+    
+    
+</aside>
+
+
+    
+        
+    
+
+    <footer class="site-footer">
+    <section class="copyright">
+        &copy; 
+        
+            2014 - 
+        
+        2021 derbalkon&#39;s
+    </section>
+    
+    <section class="powerby">
+        Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="2.1.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+    </section>
+</footer>
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    
+    <div class="pswp__bg"></div>
+
+    
+    <div class="pswp__scroll-wrap">
+
+        
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                
+                
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                        <div class="pswp__preloader__cut">
+                            <div class="pswp__preloader__donut"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div>
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.min.js"integrity="sha256-ePwmChbbvXbsO02lbM3HoHbSHTHFAeChekF1xKJdleo="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><script 
+                src="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe-ui-default.min.js"integrity="sha256-UKkzOn/w1mBxRmLLGrSeyB4e1xbrp4xylgAWb3M42pU="crossorigin="anonymous"
+                defer="true"
+                >
+            </script><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/default-skin/default-skin.css"integrity="sha256-c0uckgykQ9v5k&#43;IqViZOZKc47Jn7KQil4/MP3ySA3F8="crossorigin="anonymous"
+            ><link 
+                rel="stylesheet" 
+                href="https://cdn.jsdelivr.net/npm/photoswipe@4.1.3/dist/photoswipe.css"integrity="sha256-SBLU4vv6CA6lHsZ1XyTdhyjJxCjPif/TRkjnsyGAGnE="crossorigin="anonymous"
+            >
+            </main>
+        </div>
+        <script 
+                src="https://cdn.jsdelivr.net/npm/node-vibrant@3.1.5/dist/vibrant.min.js"integrity="sha256-5NovOZc4iwiAWTYIFiIM7DxKUXKWvpVEuMEPLzcm5/g="crossorigin="anonymous"
+                defer="false"
+                >
+            </script><script type="text/javascript" src="/ts/main.js" defer></script>
+<script>
+    (function () {
+        const customFont = document.createElement('link');
+        customFont.href = "https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap";
+
+        customFont.type = "text/css";
+        customFont.rel = "stylesheet";
+
+        document.head.appendChild(customFont);
+    }());
+</script>
+
+    </body>
+</html>
