@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Pages on derbalkon&#39;s</title>
-    <link>https://example.com/page/</link>
+    <link>https://blog.wrrrr.me/page/</link>
     <description>Recent content in Pages on derbalkon&#39;s</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 13 Feb 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://example.com/page/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Thu, 13 Feb 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.wrrrr.me/page/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>About</title>
-      <link>https://example.com/about/</link>
+      <link>https://blog.wrrrr.me/about/</link>
       <pubDate>Thu, 13 Feb 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/about/</guid>
+      <guid>https://blog.wrrrr.me/about/</guid>
       <description>Hi there This is Ryan (@derbalkon).
 The photo above was taken when I was in my third year at med school, and it&amp;rsquo;s called Modern and Broken, when the new building was just taking shape, next to the ruins.
 I took this photo simply out of the thought of documenting the mess, as with everything else in the world.
@@ -22,19 +22,19 @@ The theme originates from jimmycar&amp;rsquo;s stack and barely touched anything
     
     <item>
       <title>归档</title>
-      <link>https://example.com/archives/</link>
+      <link>https://blog.wrrrr.me/archives/</link>
       <pubDate>Tue, 28 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/archives/</guid>
+      <guid>https://blog.wrrrr.me/archives/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Search</title>
-      <link>https://example.com/search/</link>
+      <link>https://blog.wrrrr.me/search/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/search/</guid>
+      <guid>https://blog.wrrrr.me/search/</guid>
       <description></description>
     </item>
     

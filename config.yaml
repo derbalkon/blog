@@ -1,8 +1,9 @@
-baseurl: https://example.com
+baseurl: https://blog.wrrrr.me
 languageCode: en-us
 theme: hugo-theme-stack
 paginate: 10
 title: derbalkon's
+publishDir: docs
 
 # Change it to your Disqus shortname before using
 # disqusShortname: hugo-theme-stack

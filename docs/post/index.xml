@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>所有文章 on derbalkon&#39;s</title>
-    <link>https://example.com/post/</link>
+    <link>https://blog.wrrrr.me/post/</link>
     <description>Recent content in 所有文章 on derbalkon&#39;s</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 01 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://example.com/post/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Mon, 01 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.wrrrr.me/post/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>喜闻乐见的 Boot Camp (Hackintosh) 踩坑集锦</title>
-      <link>https://example.com/post/200601-hackintosh-bootcamp/</link>
+      <link>https://blog.wrrrr.me/post/200601-hackintosh-bootcamp/</link>
       <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/200601-hackintosh-bootcamp/</guid>
+      <guid>https://blog.wrrrr.me/post/200601-hackintosh-bootcamp/</guid>
       <description>自从年初使用了广为流传的 300 系主板的原生 NVRAM 解法，并且全面转换到 OpenCore 引导 macOS 之后，几乎已经忘了这台主机是一台 PC 了。偶尔出于娱乐和兼容的需求要用到 Windows，又苦于 Parallels Desktop 的订阅份额被自己的 MacBook Pro 用掉了，于是萌生了利用 Boot Camp 进行启动转换的想法，让这台 PC 向 Mac 更进一步。既然要追求极致，那就贯彻到底咯～（什么烂梗）
 注意：这里所说的 Boot Camp 仅仅是指 启动转换，而不是用 Boot Camp 去安装 Windows。理论上这样做是可行的，但是 PC 毕竟不是 Mac，在硬盘数量、分区或者其他一些东西上有差别，会导致 Boot Camp 系统盘制作错误、安装错误等等玄学问题。
 用 OpenCore 引导有什么弊端？ 正如 OpenCore 官方文档 写得那样：
@@ -21,20 +21,20 @@
     
     <item>
       <title>Google&#39;s R Style Guide</title>
-      <link>https://example.com/post/190521-r-style-guide/</link>
+      <link>https://blog.wrrrr.me/post/190521-r-style-guide/</link>
       <pubDate>Tue, 21 May 2019 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/190521-r-style-guide/</guid>
+      <guid>https://blog.wrrrr.me/post/190521-r-style-guide/</guid>
       <description>R is a high-level programming language used primarily for statistical computing and graphics. The goal of the R Programming Style Guide is to make our R code easier to read, share, and verify. The rules below were designed in collaboration with the entire R user community at Google.
 Summary: R Style Rules  File Names: end in .R Identifiers: variable.name, FunctionName, kConstantName Line Length: maximum 80 characters Indentation: two spaces, no tabs Spacing Curly Braces: first on same line, last on own line Assignment: use &amp;lt;-, not = Semicolons: don&amp;rsquo;t use them General Layout and Ordering Commenting Guidelines: all comments begin with # followed by a space; inline comments need two spaces before the # Function Definitions and Calls Function Documentation Example Function TODO Style: TODO(username)  Summary: R Language Rules  attach: avoid using it Functions: errors should be raised using stop() Objects and Methods: avoid S4 objects and methods when possible; never mix S3 and S4  Notation and Naming File Names File names should end in .</description>
     </item>
     
     <item>
       <title>憎恨必须要得到戒律的锤炼</title>
-      <link>https://example.com/post/151025-way-too-discipline/</link>
+      <link>https://blog.wrrrr.me/post/151025-way-too-discipline/</link>
       <pubDate>Sun, 25 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/151025-way-too-discipline/</guid>
+      <guid>https://blog.wrrrr.me/post/151025-way-too-discipline/</guid>
       <description>现在时间零点十分，戒律先生一晚上都在捣鼓他们那名为「青春献给党」，实为党史答题的活动题目，他一定要弄完才睡觉，不禁让我觉得，他的确是把这一晚献给了党。
 前一晚上考完了局解，戒律先生心情愉快地向我推荐了一家韩国料理店，说量特别大味道还不错。是的，他判断一家餐厅是否优秀的第一标准是量是否足，实属实用主义之至宝，过日子之不二人选，这一点我应该时刻记住的，但这是后话了——于是今天千里迢迢去了那家店，惊喜的是竟然就在南大本部西边那条小巷里，在一堆动漫店和宠物店的旁边杵着；惊恐的是其实就是彭城一号的芝士年糕火锅，倒确实是靠量大取胜。惊恐大于惊喜，老子信了你的邪，站在十月末的风里，默默地想着怎么回去手撕了他。
 倒也不怪他，同学 15 年（孽缘啊，菩萨）他的习性很容易摸清。严格守纪，军训先进个人，课堂纪律先锋，戒律先生甚至有一个做事模式：中午 12 点 40 磨咖啡豆，看一集动漫，无论看不看得完，1 点钟准时关掉电脑刷手机动态，30 分钟后洗把脸，整理书包书桌，1 点 45 准时去上课，晚上 9 点整，给家里打电话，日复一日，雷打不动。如果计划被打乱，或者行动顺序被打乱，这一整天也别想见到他的笑容了。如果不了解的话，大概会觉得他是个被设定了程序的机器人了。
@@ -47,10 +47,10 @@ Summary: R Style Rules  File Names: end in .R Identifiers: variable.name, Functi
     
     <item>
       <title>倒也不是很想写什么</title>
-      <link>https://example.com/post/151011-being-cool/</link>
+      <link>https://blog.wrrrr.me/post/151011-being-cool/</link>
       <pubDate>Sun, 11 Oct 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/151011-being-cool/</guid>
+      <guid>https://blog.wrrrr.me/post/151011-being-cool/</guid>
       <description>但是已经好久没更新了，再这么下去怕连自己都忘了。总在自带的备忘录里挖坑写标题，而事实上常常是写了标题又两行之后，寻思寻思觉得实在没什么好写，果然还是算了吧，上次发生这种事的时候还是去年，于是整个社交软件都荒废个半年，一般发生这种事情的时候不是过得特别逆就是特别顺，回头想想最近并没有多么不堪，但也谈不上很顺——所以果然是没什么话想说了 =L=
  十一假期没过好，电脑坏了，准确地说是 iMessage 和 FaceTime 整个挂掉了，无论我怎么重装系统怎么开机重置都于事无补，于是那几天没有睡得很好，原因之一是迫不及待地想要弄清楚缘由，性子急就好像之后的一天之内向 Apple 支持接连投送了 4 个案例一样——是的 Apple 支持，这就是原因之二，劳资怎么就平生第一次对软件层面的问题束手无策了呢，神 tm 不安，此间突然又想到了日本人那一套「不愿做出真正的改革，还在奇怪为何世界离自己而去了」，于是更不安了。
 之后的事情就越来越偏离我的掌控范围了：跟着客服做着白痴一样的调试（此前我一直嗤之以鼻当时却是认真地跟着步骤一丝不苟或许是因为真的没办法了吧），意料之中地毫无帮助，于是 Capture Data 了一份系统信息传给高级工程师静候秋后问斩佳音。不过客服倒是很负责，中间断了线还诚惶诚恐地发邮件过来询问我是否有别的事情、是否要安排其他时间——哦！一个焦头烂额的客户被温柔地对待了，感动得差点要给 Apple 写表扬信了。
@@ -62,10 +62,10 @@ Summary: R Style Rules  File Names: end in .R Identifiers: variable.name, Functi
     
     <item>
       <title>Dialogues</title>
-      <link>https://example.com/post/150727-untitled/</link>
+      <link>https://blog.wrrrr.me/post/150727-untitled/</link>
       <pubDate>Mon, 27 Jul 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/150727-untitled/</guid>
+      <guid>https://blog.wrrrr.me/post/150727-untitled/</guid>
       <description>去买东西  妈：你看这裙子我当睡衣行吗？
 我：行。
 妈：这个裙子挺宽松的吭，对吧，也不是很像睡衣的样子，晚上都能穿出去散步了感觉。
@@ -84,10 +84,10 @@ Summary: R Style Rules  File Names: end in .R Identifiers: variable.name, Functi
     
     <item>
       <title>You think</title>
-      <link>https://example.com/post/150716-untitled-05/</link>
+      <link>https://blog.wrrrr.me/post/150716-untitled-05/</link>
       <pubDate>Thu, 16 Jul 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/150716-untitled-05/</guid>
+      <guid>https://blog.wrrrr.me/post/150716-untitled-05/</guid>
       <description> You think it’s cool to hate things?
 And it’s not. It’s boring.
 Talk about what you love and keep quiet about what you hate.
@@ -96,20 +96,20 @@ Talk about what you love and keep quiet about what you hate.
     
     <item>
       <title>看《愤怒的妈妈》</title>
-      <link>https://example.com/post/150506-angry-mom/</link>
+      <link>https://blog.wrrrr.me/post/150506-angry-mom/</link>
       <pubDate>Wed, 06 May 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/150506-angry-mom/</guid>
+      <guid>https://blog.wrrrr.me/post/150506-angry-mom/</guid>
       <description>第四集，永远正能量爆棚的，善良纯真到天真的新任班主任，和被卷入高层权力斗争，陷入校园暴力的女学生，前者挂着爽朗温暖的笑容：「在你们这个年纪啊，什么都看得认真才是正常的，好多现在难过得要死的事情在以后看来都是一阵风而已。」女学生冷冷看着他：「老师你什么都不知道。在你眼里世界或许像诗一样美丽，但在我眼里却是地狱。」不久，女学生因为搜集证据自保而被人从天台推下去灭了口。老师揣着头一晚写给女学生的信悲痛万分，信上说：这个世界没有那么美丽，但也没有那么糟糕。然而地上一滩血迹就在那里说：不，它就是这样糟糕。
 我们总是这样轻视他人的痛苦，「不就是 xxxx 了嘛，有什么呢？以后你就不会觉得难过了。」可是你怎么能够轻浮地用不可知的未来来敷衍一个当下就被痛苦折磨的人？你作为过来人，有资格评论的也是你自己的过去，用你的过去时去否定别人的现在时，无论你说得多么恳切温柔，都是对当事人的凌虐与侮辱。</description>
     </item>
     
     <item>
       <title>如此这般</title>
-      <link>https://example.com/post/150413-feminism/</link>
+      <link>https://blog.wrrrr.me/post/150413-feminism/</link>
       <pubDate>Mon, 13 Apr 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/150413-feminism/</guid>
+      <guid>https://blog.wrrrr.me/post/150413-feminism/</guid>
       <description>弗洛姆在《爱的艺术》里说：
  大多数人生活在一种幻觉里，以为自己是按照个人的意愿行事，是具有个性的人，是经过大脑的思考形成自己的看法——他们认为他们的观点之所以和大多数人吻合纯粹是巧合罢了。他们甚至认为这正好证明了「他们」的观点是正确的。
 至于他们尚存的、希望自己有个性的要求则通过微不足道的东西得到满足：如在手提箱和毛衣上绣上自己的名字的缩写字母，在玻璃窗口挂上自己的名牌，参加一个政党或者一个学生联合会。「来点别的」这一广告口号证明了在一个几乎不存在个性的社会现实中，人们多么需要个性！
@@ -121,10 +121,10 @@ Talk about what you love and keep quiet about what you hate.
     
     <item>
       <title>谁不知道你是个大好人</title>
-      <link>https://example.com/post/150109-being-a-goodman/</link>
+      <link>https://blog.wrrrr.me/post/150109-being-a-goodman/</link>
       <pubDate>Fri, 09 Jan 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/150109-being-a-goodman/</guid>
+      <guid>https://blog.wrrrr.me/post/150109-being-a-goodman/</guid>
       <description>值得一提的是，这里的好人并不指被发了好人卡，事实上，他倒是发了不少姑娘好人卡——也并不是他的错，而是他的人实在太好了——他的好在于体贴，用我的话来讲，就是连走夜路的时候看见前面女生独自一人，为了不从身边经过的时候吓到她，他都会事先在身后轻轻地假装自己在咳嗽告知对方。
 好人先生不光心眼儿好，性格也很好，自然而然地，他有了很多真诚对他的朋友。在众多朋友中，苦水小姐算是最真诚的朋友之一，她的真诚体现在呃……自己一有不顺心的事儿，第一时间就打电话给好人先生倒苦水。每次接到电话，好人先生就绞尽脑汁地给她灌鸡汤，一灌就是好几年。
 新年之前的某日，好人先生心情不是非常晴朗，眼看着要跨年了手头的事情却怎么也做不完。某个瞬间，好人先生忙得焦头烂额的时候脑子里一道光闪现——千万不要在这个时候接到苦水小姐的电话。念头刚一闪过，大难临头了。好人先生硬着头皮接起电话，边忙边心不在焉地应和着电话那头。很显然电话那头听出了他的敷衍，说，你怎么这么爱答不理的？好人先生不带任何情绪色彩地说，我堆了好多事儿还没做完今天要干完呢。
@@ -146,10 +146,10 @@ Talk about what you love and keep quiet about what you hate.
     
     <item>
       <title>现代诗一首</title>
-      <link>https://example.com/post/150107-untitled-04/</link>
+      <link>https://blog.wrrrr.me/post/150107-untitled-04/</link>
       <pubDate>Wed, 07 Jan 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/150107-untitled-04/</guid>
+      <guid>https://blog.wrrrr.me/post/150107-untitled-04/</guid>
       <description>今天本
 帅哥修了胡子
 简直
@@ -160,10 +160,10 @@ Talk about what you love and keep quiet about what you hate.
     
     <item>
       <title>苟日新日日新又日新</title>
-      <link>https://example.com/post/150104-everyday-update/</link>
+      <link>https://blog.wrrrr.me/post/150104-everyday-update/</link>
       <pubDate>Sun, 04 Jan 2015 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/150104-everyday-update/</guid>
+      <guid>https://blog.wrrrr.me/post/150104-everyday-update/</guid>
       <description>这句话在这个时代来看非常对，唯一的问题在于商朝的人们是怎么创造出这句话的。能想到的理由之一是他们把青铜鼎花样翻新熔了再铸铸了再熔，得到了技术和艺术的双重升华，然后被这一场景萌了一下之后再也想不起其他理由了。
 作为一个更新狂热者，最不能够理解的就是那些 App Store 堆了一堆数字不升级的行为。他们的理由是，怕升级之后不好用。而我唯一用来反驳的理由是，所谓升级只会更好用。
 纠结小姐是一个惧怕更新的人，每一次系统上有大的变动，都要给我打电话表示自己的苦恼，每次的结果都是被我怂恿着去更新了之后，再次打电话来诉苦，理由无非是快要受不了更新后的丑界面了。几次三番之后她失去了斗志，我也失去了说服她去更新的耐心。直到有一天她又打电话来抱怨不升级了之后，QQ 都没法跟别人一样网络通话了，吓得我赶紧转了个话题，问候了她的考试成绩。
@@ -174,10 +174,10 @@ Talk about what you love and keep quiet about what you hate.
     
     <item>
       <title>Theory of People Don’t Change</title>
-      <link>https://example.com/post/141206-people-dont-change/</link>
+      <link>https://blog.wrrrr.me/post/141206-people-dont-change/</link>
       <pubDate>Sat, 06 Dec 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/141206-people-dont-change/</guid>
+      <guid>https://blog.wrrrr.me/post/141206-people-dont-change/</guid>
       <description>有时候看见别人跟自己不一样的状态，就觉得很酷，就模仿他的一言一行，直到周围人意识到我最近有了改变，就这样一直重复循环，最后变得越来越离谱，就说我成长了不少。
 傻，哪儿变了？最本质的学人精体质永远不会变。
 《童话镇》里邪恶皇后弃恶从良，无论怎么变，从来没改变过还是对不可及的爱的控制与渴望，而恶只是表象。
@@ -186,10 +186,10 @@ Talk about what you love and keep quiet about what you hate.
     
     <item>
       <title>从今天起</title>
-      <link>https://example.com/post/140919-untitled-03/</link>
+      <link>https://blog.wrrrr.me/post/140919-untitled-03/</link>
       <pubDate>Fri, 19 Sep 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/140919-untitled-03/</guid>
+      <guid>https://blog.wrrrr.me/post/140919-untitled-03/</guid>
       <description>做一个骄傲的人
 喂柴劈马
 加油</description>
@@ -197,10 +197,10 @@ Talk about what you love and keep quiet about what you hate.
     
     <item>
       <title>破功</title>
-      <link>https://example.com/post/140919-bad-luck-continues/</link>
+      <link>https://blog.wrrrr.me/post/140919-bad-luck-continues/</link>
       <pubDate>Fri, 19 Sep 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/140919-bad-luck-continues/</guid>
+      <guid>https://blog.wrrrr.me/post/140919-bad-luck-continues/</guid>
       <description>运气差的时候总会一直倒霉下去的，辛苦经营的暑期实践团队优秀名额因为所处年级低而被让出去，心理变态的辅导员一句话让这辛苦了一个星期的评定细则白瞎了，坚持不在群里出现却在最后一刻把电脑拿到床上的时候误触标点和回车。
 疯了。主席团 6 个成员 5 个辞职，班长们半数欲辞，学生会部长悉数表态再来一次真的招架不住，与我相约请辞。有什么大不了的呢？
 又看到了华侨大学的电梯事件，那个男生缺氧抽搐的样子又让我想起来了昨天那只屠杀失败的半死蟾蜍，抽搐，抽搐，最终我凭着意志让手不抖让呼吸平静，依旧很难过。盒曾经说她爹手术台上没救回来一个人，战战兢兢了一个星期，我以为自己这么没心没肺肯定不会这么脆弱，事实证明这跟脆弱没有半毛钱关系。
@@ -209,10 +209,10 @@ Talk about what you love and keep quiet about what you hate.
     
     <item>
       <title>亲密这个词</title>
-      <link>https://example.com/post/140901-untitled-02/</link>
+      <link>https://blog.wrrrr.me/post/140901-untitled-02/</link>
       <pubDate>Mon, 01 Sep 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/140901-untitled-02/</guid>
+      <guid>https://blog.wrrrr.me/post/140901-untitled-02/</guid>
       <description> 意思是：给你我的心和灵魂。磨碎做成汉堡包，供你品尝。既令人渴望，又令人恐惧，很难让人与之相处。但又不可或缺。
 亲密还跟三个词密不可分，亲情，友情和爱情。
  — GREY’S ANATOMY  </description>
@@ -220,10 +220,10 @@ Talk about what you love and keep quiet about what you hate.
     
     <item>
       <title>お元気ですか？</title>
-      <link>https://example.com/post/140831-untitled-01/</link>
+      <link>https://blog.wrrrr.me/post/140831-untitled-01/</link>
       <pubDate>Sun, 31 Aug 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/140831-untitled-01/</guid>
+      <guid>https://blog.wrrrr.me/post/140831-untitled-01/</guid>
       <description>お元気ですか？
 私はお 元気です!
  没错，就是这种说不出来的感觉。</description>
@@ -231,10 +231,10 @@ Talk about what you love and keep quiet about what you hate.
     
     <item>
       <title>难看是自己的事儿</title>
-      <link>https://example.com/post/140825-why-being-ugly/</link>
+      <link>https://blog.wrrrr.me/post/140825-why-being-ugly/</link>
       <pubDate>Mon, 25 Aug 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/140825-why-being-ugly/</guid>
+      <guid>https://blog.wrrrr.me/post/140825-why-being-ugly/</guid>
       <description>继在公交车被身边美女姐姐意外地靠着肩膀睡着了事件之后，又见到一名中年男子，也算是开了眼界，两手举抓着扶手，手上拿着一个粉红底色的塑料男科广告扇，上书「坚持不泄」，于是这把扇子就这么不体面地晃荡了一路。
 其实闲时公交车上看到的哪是乘客，分明是人生难看的后半段：不讲究的中年体态让他们两手撑着扶手，屁股后撅，上衣盖不住裤子没遮住的藏蓝色内裤。强悍的地心引力让他们不小心地，全力地坐在座位上。又或者，阅历太多以至于在车上吊起嗓子唱戏，认为是一种诗意而且不羁的体验。
 小时候谁也不想成为体态类似，举止类似，难以区分的人。作文里也写得头头是道，反而越活越是不在乎，那些对自己和周围都不在乎没有要求的人注定要在这样的公交车上相逢相望，谁也不觉得谁不妥。
@@ -244,10 +244,10 @@ Talk about what you love and keep quiet about what you hate.
     
     <item>
       <title>一首歌</title>
-      <link>https://example.com/post/140823-one-song/</link>
+      <link>https://blog.wrrrr.me/post/140823-one-song/</link>
       <pubDate>Sat, 23 Aug 2014 00:00:00 +0000</pubDate>
       
-      <guid>https://example.com/post/140823-one-song/</guid>
+      <guid>https://blog.wrrrr.me/post/140823-one-song/</guid>
       <description>于此同时，初中的我在晚上 9 点，在暴雨里，从校门口骑着自行车疯狂往家骑，路况极佳，轮胎轧过积水一路火花带闪电。
 ——现在零点二十四分了，那个我已经睡着了吧。
    异乡的我，不知畏寒，思落心晟，捶我心肝
