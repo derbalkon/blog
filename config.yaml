@@ -2,7 +2,7 @@ baseurl: https://blog.wrrrr.me
 languageCode: en-us
 theme: hugo-theme-stack
 paginate: 10
-title: derbalkon's
+title: Void Space
 publishDir: docs
 
 # Change it to your Disqus shortname before using
@@ -33,7 +33,7 @@ params:
 
     sidebar:
         emoji: 🧊
-        subtitle: Lorem ipsum
+        subtitle: '@derbalkon'
         avatar:
             local: true
             src: img/avatar.png
