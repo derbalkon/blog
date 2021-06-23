@@ -494,9 +494,13 @@ Talk about what you love and keep quiet about what you hate.&lt;/p&gt;
         <guid>https://blog.wrrrr.me/post/140823-one-song/</guid>
         <description>&lt;p&gt;于此同时，初中的我在晚上 9 点，在暴雨里，从校门口骑着自行车疯狂往家骑，路况极佳，轮胎轧过积水一路火花带闪电。&lt;/p&gt;
 &lt;p&gt;——现在零点二十四分了，那个我已经睡着了吧。&lt;/p&gt;
-
-&lt;div style=&#34;position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;&#34;&gt;
-  &lt;iframe loading=&#34;lazy&#34; src=&#34;https://www.youtube.com/embed/9ARnQm0_vXc&#34; style=&#34;position: absolute; top: 0; left: 0; width: 100%; height: 100%; border:0;&#34; allowfullscreen title=&#34;YouTube Video&#34;&gt;&lt;/iframe&gt;
+&lt;div class=&#34;video-wrapper&#34;&gt;
+    &lt;iframe loading=&#34;lazy&#34; 
+            src=&#34;https://www.youtube.com/embed/9ARnQm0_vXc&#34; 
+            allowfullscreen 
+            title=&#34;YouTube Video&#34;
+    &gt;
+    &lt;/iframe&gt;
 &lt;/div&gt;
 
 &lt;blockquote&gt;
