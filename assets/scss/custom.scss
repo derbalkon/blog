@@ -4,6 +4,7 @@
     --body-text-color: #7a7a7a;
     --body-background: #fafafa;
     --code-background-color: #f1f3f4;
+    --scrollbar-thumb: #eaeaeaea;
     .chroma {
         background-color: #f1f3f4;
     }
@@ -48,12 +49,13 @@
         }
     }
     
-    [data-scheme="dark"] {
+    &[data-scheme="dark"] {
         --body-background: #1b1b1b;
         --card-background: #2e3235;
         --blockquote-background-color: #25282c;
         --code-background-color: #1f2224;
         --pre-background-color: #1f2224;
+        --scrollbar-thumb: #2e323550;
         .chroma {
             background-color: #1f2224;
         }
