@@ -90,17 +90,29 @@
     <h3 class="article-subtitle">
         A copy for linting reference.
     </h3>
+    
+
+    
     <footer class="article-time">
-        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-clock" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        
+            <div>
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-calendar-time" width="56" height="56" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
   <path stroke="none" d="M0 0h24v24H0z"/>
-  <circle cx="12" cy="12" r="9" />
-  <polyline points="12 7 12 12 15 15" />
+  <path d="M11.795 21h-6.795a2 2 0 0 1 -2 -2v-12a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v4" />
+  <circle cx="18" cy="18" r="4" />
+  <path d="M15 3v4" />
+  <path d="M7 3v4" />
+  <path d="M3 11h16" />
+  <path d="M18 16.496v1.504l1 1" />
 </svg>
+                <time class="article-time--published">May 21, 2019</time>
+            </div>
+        
 
-
-
-        <time class="article-time--published">May 21, 2019</time>
-    </footer></div>
+        
+    </footer>
+    
+</div>
 </header>
 
     <section class="article-content">
@@ -157,11 +169,11 @@ Make function names verbs.<br>
 <em>Exception: Spaces around <code>=</code>&rsquo;s are optional when passing parameters in a function call.</em></p>
 <p>Do not place a space before a comma, but always place one after a comma.</p>
 <p>GOOD:</p>
-<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="n">tabPrior</span> <span class="o">&lt;-</span> <span class="nf">table</span><span class="p">(</span><span class="n">df[df</span><span class="o">$</span><span class="n">daysFromOpt</span> <span class="o">&lt;</span> <span class="m">0</span><span class="p">,</span> <span class="s">&#34;campaignid&#34;</span><span class="n">]</span><span class="p">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="n">tabPrior</span> <span class="o">&lt;-</span> <span class="nf">table</span><span class="p">(</span><span class="n">df[df</span><span class="o">$</span><span class="n">daysFromOpt</span> <span class="o">&lt;</span> <span class="m">0</span><span class="p">,</span> <span class="s">&#34;campaignid&#34;</span><span class="n">]</span><span class="p">)</span>
 <span class="n">total</span> <span class="o">&lt;-</span> <span class="nf">sum</span><span class="p">(</span><span class="n">x[</span><span class="p">,</span> <span class="m">1</span><span class="n">]</span><span class="p">)</span>
 <span class="n">total</span> <span class="o">&lt;-</span> <span class="nf">sum</span><span class="p">(</span><span class="n">x[1</span><span class="p">,</span> <span class="n">]</span><span class="p">)</span>
 </code></pre></div><p>BAD:</p>
-<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="n">tabPrior</span> <span class="o">&lt;-</span> <span class="nf">table</span><span class="p">(</span><span class="n">df[df</span><span class="o">$</span><span class="n">daysFromOpt</span><span class="o">&lt;</span><span class="m">0</span><span class="p">,</span> <span class="s">&#34;campaignid&#34;</span><span class="n">]</span><span class="p">)</span>  <span class="c1"># Needs spaces around &#39;&lt;&#39;</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="n">tabPrior</span> <span class="o">&lt;-</span> <span class="nf">table</span><span class="p">(</span><span class="n">df[df</span><span class="o">$</span><span class="n">daysFromOpt</span><span class="o">&lt;</span><span class="m">0</span><span class="p">,</span> <span class="s">&#34;campaignid&#34;</span><span class="n">]</span><span class="p">)</span>  <span class="c1"># Needs spaces around &#39;&lt;&#39;</span>
 <span class="n">tabPrior</span> <span class="o">&lt;-</span> <span class="nf">table</span><span class="p">(</span><span class="n">df[df</span><span class="o">$</span><span class="n">daysFromOpt</span> <span class="o">&lt;</span> <span class="m">0</span><span class="p">,</span><span class="s">&#34;campaignid&#34;</span><span class="n">]</span><span class="p">)</span>  <span class="c1"># Needs a space after the comma</span>
 <span class="n">tabPrior</span><span class="o">&lt;-</span> <span class="nf">table</span><span class="p">(</span><span class="n">df[df</span><span class="o">$</span><span class="n">daysFromOpt</span> <span class="o">&lt;</span> <span class="m">0</span><span class="p">,</span> <span class="s">&#34;campaignid&#34;</span><span class="n">]</span><span class="p">)</span>  <span class="c1"># Needs a space before &lt;-</span>
 <span class="n">tabPrior</span><span class="o">&lt;-</span><span class="nf">table</span><span class="p">(</span><span class="n">df[df</span><span class="o">$</span><span class="n">daysFromOpt</span> <span class="o">&lt;</span> <span class="m">0</span><span class="p">,</span> <span class="s">&#34;campaignid&#34;</span><span class="n">]</span><span class="p">)</span>  <span class="c1"># Needs spaces around &lt;-</span>
@@ -169,11 +181,11 @@ Make function names verbs.<br>
 <span class="n">total</span> <span class="o">&lt;-</span> <span class="nf">sum</span><span class="p">(</span><span class="n">x[</span> <span class="p">,</span><span class="m">1</span><span class="n">]</span><span class="p">)</span>  <span class="c1"># Needs a space after the comma, not before</span>
 </code></pre></div><p>Place a space before left parenthesis, except in a function call.</p>
 <p>GOOD:</p>
-<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="nf">if </span><span class="p">(</span><span class="n">debug</span><span class="p">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="nf">if </span><span class="p">(</span><span class="n">debug</span><span class="p">)</span>
 </code></pre></div><p>BAD:</p>
-<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="nf">if</span><span class="p">(</span><span class="n">debug</span><span class="p">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="nf">if</span><span class="p">(</span><span class="n">debug</span><span class="p">)</span>
 </code></pre></div><p>Extra spacing (i.e., more than one space in a row) is okay if it improves alignment of equals signs or arrows (<code>&lt;-</code>).</p>
-<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="nf">plot</span><span class="p">(</span><span class="n">x</span>    <span class="o">=</span> <span class="n">xCoord</span><span class="p">,</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="nf">plot</span><span class="p">(</span><span class="n">x</span>    <span class="o">=</span> <span class="n">xCoord</span><span class="p">,</span>
      <span class="n">y</span>    <span class="o">=</span> <span class="n">dataMat[</span><span class="p">,</span> <span class="nf">makeColName</span><span class="p">(</span><span class="n">metric</span><span class="p">,</span> <span class="n">ptiles[1]</span><span class="p">,</span> <span class="s">&#34;roiOpt&#34;</span><span class="p">)</span><span class="n">]</span><span class="p">,</span>
      <span class="n">ylim</span> <span class="o">=</span> <span class="n">ylim</span><span class="p">,</span>
      <span class="n">xlab</span> <span class="o">=</span> <span class="s">&#34;dates&#34;</span><span class="p">,</span>
@@ -182,14 +194,14 @@ Make function names verbs.<br>
 </code></pre></div><p>Do not place spaces around code in parentheses or square brackets.<br>
 Exception: Always place a space after a comma.</p>
 <p>GOOD:</p>
-<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="nf">if </span><span class="p">(</span><span class="n">debug</span><span class="p">)</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="nf">if </span><span class="p">(</span><span class="n">debug</span><span class="p">)</span>
 <span class="n">x[1</span><span class="p">,</span> <span class="n">]</span>
 </code></pre></div><p>BAD:</p>
-<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="nf">if </span><span class="p">(</span> <span class="n">debug</span> <span class="p">)</span>  <span class="c1"># No spaces around debug</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="nf">if </span><span class="p">(</span> <span class="n">debug</span> <span class="p">)</span>  <span class="c1"># No spaces around debug</span>
 <span class="n">x[1</span><span class="p">,</span><span class="n">]</span>  <span class="c1"># Needs a space after the comma </span>
 </code></pre></div><h4 id="curly-braces">Curly Braces</h4>
 <p>An opening curly brace should never go on its own line; a closing curly brace should always go on its own line. You may omit curly braces when a block consists of a single statement; however, you must consistently either use or not use curly braces for single statement blocks.</p>
-<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="nf">if </span><span class="p">(</span><span class="nf">is.null</span><span class="p">(</span><span class="n">ylim</span><span class="p">))</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="nf">if </span><span class="p">(</span><span class="nf">is.null</span><span class="p">(</span><span class="n">ylim</span><span class="p">))</span> <span class="p">{</span>
   <span class="n">ylim</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0.06</span><span class="p">)</span>
 <span class="p">}</span>
 <span class="nf">xor </span><span class="p">(</span><span class="n">but</span> <span class="n">not</span> <span class="n">both</span><span class="p">)</span>
@@ -198,7 +210,7 @@ Exception: Always place a space after a comma.</p>
   <span class="n">ylim</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0.06</span><span class="p">)</span>
 </code></pre></div><p>Always begin the body of a block on a new line.</p>
 <p>BAD:</p>
-<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="nf">if </span><span class="p">(</span><span class="nf">is.null</span><span class="p">(</span><span class="n">ylim</span><span class="p">))</span> <span class="n">ylim</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0.06</span><span class="p">)</span> 
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="nf">if </span><span class="p">(</span><span class="nf">is.null</span><span class="p">(</span><span class="n">ylim</span><span class="p">))</span> <span class="n">ylim</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0.06</span><span class="p">)</span> 
 <span class="nf">if </span><span class="p">(</span><span class="nf">is.null</span><span class="p">(</span><span class="n">ylim</span><span class="p">))</span> <span class="p">{</span><span class="n">ylim</span> <span class="o">&lt;-</span> <span class="nf">c</span><span class="p">(</span><span class="m">0</span><span class="p">,</span> <span class="m">0.06</span><span class="p">)}</span>
 </code></pre></div><h4 id="assignment">Assignment</h4>
 <p>Use <code>&lt;-</code>, not <code>=</code>, for assignment.</p>
@@ -223,7 +235,7 @@ Exception: Always place a space after a comma.</p>
 <h4 id="commenting-guidelines">Commenting Guidelines</h4>
 <p>Comment your code. Entire commented lines should begin with # and one space.</p>
 <p>Short comments can be placed after code preceded by two spaces, #, and then one space.</p>
-<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="c1"># Create histogram of frequency of campaigns by pct budget spent.</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="c1"># Create histogram of frequency of campaigns by pct budget spent.</span>
 
 <span class="nf">hist</span><span class="p">(</span><span class="n">df</span><span class="o">$</span><span class="n">pctSpent</span><span class="p">,</span>
      <span class="n">breaks</span> <span class="o">=</span> <span class="s">&#34;scott&#34;</span><span class="p">,</span>  <span class="c1"># method for choosing number of buckets</span>
@@ -234,16 +246,16 @@ Exception: Always place a space after a comma.</p>
 <p>Function definitions should first list arguments without default values, followed by those with default values.</p>
 <p>In both function definitions and function calls, multiple arguments per line are allowed; line breaks are only allowed between assignments.</p>
 <p>GOOD:</p>
-<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="n">PredictCTR</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">property</span><span class="p">,</span> <span class="n">numDays</span><span class="p">,</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="n">PredictCTR</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">property</span><span class="p">,</span> <span class="n">numDays</span><span class="p">,</span>
                        <span class="n">showPlot</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span>
 </code></pre></div><p>BAD:</p>
-<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="n">PredictCTR</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">property</span><span class="p">,</span> <span class="n">numDays</span><span class="p">,</span> <span class="n">showPlot</span> <span class="o">=</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="n">PredictCTR</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">property</span><span class="p">,</span> <span class="n">numDays</span><span class="p">,</span> <span class="n">showPlot</span> <span class="o">=</span>
                        <span class="kc">TRUE</span><span class="p">)</span>
 </code></pre></div><p>Ideally, unit tests should serve as sample function calls (for shared library routines).</p>
 <h4 id="function-documentation">Function Documentation</h4>
 <p>Functions should contain a comments section immediately below the function definition line. These comments should consist of a one-sentence description of the function; a list of the function&rsquo;s arguments, denoted by Args:, with a description of each (including the data type); and a description of the return value, denoted by Returns:. The comments should be descriptive enough that a caller can use the function without reading any of the function&rsquo;s code.</p>
 <h4 id="example-function">Example Function</h4>
-<div class="highlight"><pre class="chroma"><code class="language-R" data-lang="R"><span class="n">CalculateSampleCovariance</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span> <span class="p">{</span>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-R" data-lang="R"><span class="n">CalculateSampleCovariance</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">verbose</span> <span class="o">=</span> <span class="kc">TRUE</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1"># Computes the sample covariance between two vectors.</span>
   <span class="c1">#</span>
   <span class="c1"># Args:</span>
@@ -277,7 +289,8 @@ Exception: Always place a space after a comma.</p>
 <h4 id="functions">Functions</h4>
 <p>Errors should be raised using <code>stop()</code>.</p>
 <h4 id="objects-and-methods">Objects and Methods</h4>
-<p>The S language has two object systems, S3 and S4, both of which are available in R. S3 methods are more interactive and flexible, whereas S4 methods are more formal and rigorous. (For an illustration of the two systems, see Thomas Lumley&rsquo;s &ldquo;Programmer&rsquo;s Niche: A Simple Class, in S3 and S4&rdquo; in R News 4/1, 2004, pgs. 33 - 36: <a href="http://cran.r-project.org/doc/Rnews/Rnews_2004-1.pdf">http://cran.r-project.org/doc/Rnews/Rnews_2004-1.pdf</a>.)</p>
+<p>The S language has two object systems, S3 and S4, both of which are available in R. S3 methods are more interactive and flexible, whereas S4 methods are more formal and rigorous. (For an illustration of the two systems, see Thomas Lumley&rsquo;s &ldquo;Programmer&rsquo;s Niche: A Simple Class, in S3 and S4&rdquo; in R News 4/1, 2004, pgs. 33 - 36: <a class="link" href="http://cran.r-project.org/doc/Rnews/Rnews_2004-1.pdf"  target="_blank" rel="noopener"
+    >http://cran.r-project.org/doc/Rnews/Rnews_2004-1.pdf</a>.)</p>
 <p>Use S3 objects and methods unless there is a strong reason to use S4 objects or methods. A primary justification for an S4 object would be to use objects directly in C++ code. A primary justification for an S4 generic/method would be to dispatch on two arguments.</p>
 <p>Avoid mixing S3 and S4: S4 methods ignore S3 inheritance and vice-versa.</p>
 <h3 id="exceptions">Exceptions</h3>
@@ -287,8 +300,10 @@ Exception: Always place a space after a comma.</p>
 If you are editing code, take a few minutes to look at the code around you and determine its style. If others use spaces around their <code>if</code> clauses, you should, too. If their comments have little boxes of stars around them, make your comments have little boxes of stars around them, too.</p>
 <p>The point of having style guidelines is to have a common vocabulary of coding so people can concentrate on <em>what</em> you are saying, rather than on <em>how</em> you are saying it. We present global style rules here so people know the vocabulary. But local style is also important. If code you add to a file looks drastically different from the existing code around it, the discontinuity will throw readers out of their rhythm when they go to read it. Try to avoid this. OK, enough writing about writing code; the code itself is much more interesting. Have fun!</p>
 <h3 id="references">References</h3>
-<p><a href="http://www.maths.lth.se/help/R/RCC/">http://www.maths.lth.se/help/R/RCC/</a> - R Coding Conventions<br>
-<a href="http://ess.r-project.org/">http://ess.r-project.org/</a> - For emacs users. This runs R in your emacs and has an emacs mode.</p>
+<p><a class="link" href="http://www.maths.lth.se/help/R/RCC/"  target="_blank" rel="noopener"
+    >http://www.maths.lth.se/help/R/RCC/</a> - R Coding Conventions<br>
+<a class="link" href="http://ess.r-project.org/"  target="_blank" rel="noopener"
+    >http://ess.r-project.org/</a> - For emacs users. This runs R in your emacs and has an emacs mode.</p>
 
 </section>
 
@@ -306,9 +321,10 @@ If you are editing code, take a few minutes to look at the code around you and d
 
 
 
-        <span>Licensed under CC BY-NC-SA 4.0</span>
+        <span>许可协议采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">CC BY-NC-SA 4.0</a></span>
     </section>
     </footer>
+
 
     
 </article>
@@ -334,9 +350,10 @@ If you are editing code, take a few minutes to look at the code around you and d
     
     <section class="powerby">
         Built with <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> <br />
-        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="2.5.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
+        Theme <b><a href="https://github.com/CaiJimmy/hugo-theme-stack" target="_blank" rel="noopener" data-version="3.1.0">Stack</a></b> designed by <a href="https://jimmycai.com" target="_blank" rel="noopener">Jimmy</a>
     </section>
 </footer>
+
 
     
 <div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
