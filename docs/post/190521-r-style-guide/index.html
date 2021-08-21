@@ -12,16 +12,20 @@
 <meta property='og:type' content='article'><meta property='article:section' content='Post' /><meta property='article:published_time' content='2019-05-21T00:00:00&#43;00:00'/><meta property='article:modified_time' content='2019-05-21T00:00:00&#43;00:00'/><meta property='og:image' content='https://blog.wrrrr.me/post/image/cover-r-style-guide.jpg' />
 <meta name="twitter:title" content="Google&#39;s R Style Guide">
 <meta name="twitter:description" content="A copy for linting reference."><meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content='https://blog.wrrrr.me/post/image/cover-r-style-guide.jpg' /><script>
+    <meta name="twitter:image" content='https://blog.wrrrr.me/post/image/cover-r-style-guide.jpg' /><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "48b74e909a6644359031e1e095ea04ad"}'></script>
+
+
+<script>
     (function(d) {
-      var config = {
-        kitId: 'jvh6pxp',
-        scriptTimeout: 3000,
-        async: true
-      },
-      h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
+        var config = {
+            kitId: 'jvh6pxp',
+            scriptTimeout: 3000,
+            async: true
+        },
+        h=d.documentElement,t=setTimeout(function(){h.className=h.className.replace(/\bwf-loading\b/g,"")+" wf-inactive";},config.scriptTimeout),tk=d.createElement("script"),f=false,s=d.getElementsByTagName("script")[0],a;h.className+=" wf-loading";tk.src='https://use.typekit.net/'+config.kitId+'.js';tk.async=true;tk.onload=tk.onreadystatechange=function(){a=this.readyState;if(f||a&&a!="complete"&&a!="loaded")return;f=true;clearTimeout(t);try{Typekit.load(config)}catch(e){}};s.parentNode.insertBefore(tk,s)
     })(document);
-  </script>
+</script>
+
     </head>
     <body class="
     article-page has-toc
@@ -453,20 +457,49 @@ If you are editing code, take a few minutes to look at the code around you and d
                 
                 <div class="widget--toc">
                     <nav id="TableOfContents">
-  <ul>
+  <ol>
     <li><a href="#summary-r-style-rules">Summary: R Style Rules</a></li>
     <li><a href="#summary-r-language-rules">Summary: R Language Rules</a>
-      <ul>
-        <li><a href="#notation-and-naming">Notation and Naming</a></li>
-        <li><a href="#syntax">Syntax</a></li>
-        <li><a href="#organization">Organization</a></li>
-        <li><a href="#language">Language</a></li>
+      <ol>
+        <li><a href="#notation-and-naming">Notation and Naming</a>
+          <ol>
+            <li><a href="#file-names">File Names</a></li>
+            <li><a href="#identifiers">Identifiers</a></li>
+          </ol>
+        </li>
+        <li><a href="#syntax">Syntax</a>
+          <ol>
+            <li><a href="#line-length">Line Length</a></li>
+            <li><a href="#indentation">Indentation</a></li>
+            <li><a href="#spacing">Spacing</a></li>
+            <li><a href="#curly-braces">Curly Braces</a></li>
+            <li><a href="#assignment">Assignment</a></li>
+            <li><a href="#semicolons">Semicolons</a></li>
+          </ol>
+        </li>
+        <li><a href="#organization">Organization</a>
+          <ol>
+            <li><a href="#general-layout-and-ordering">General Layout and Ordering</a></li>
+            <li><a href="#commenting-guidelines">Commenting Guidelines</a></li>
+            <li><a href="#function-definitions-and-calls">Function Definitions and Calls</a></li>
+            <li><a href="#function-documentation">Function Documentation</a></li>
+            <li><a href="#example-function">Example Function</a></li>
+            <li><a href="#todo-style">TODO Style</a></li>
+          </ol>
+        </li>
+        <li><a href="#language">Language</a>
+          <ol>
+            <li><a href="#attach">Attach</a></li>
+            <li><a href="#functions">Functions</a></li>
+            <li><a href="#objects-and-methods">Objects and Methods</a></li>
+          </ol>
+        </li>
         <li><a href="#exceptions">Exceptions</a></li>
         <li><a href="#parting-words">Parting Words</a></li>
         <li><a href="#references">References</a></li>
-      </ul>
+      </ol>
     </li>
-  </ul>
+  </ol>
 </nav>
                 </div>
             </section>
