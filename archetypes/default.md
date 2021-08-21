@@ -1,13 +1,14 @@
 ---
 title: {{ replace .Name "-" " " | title }}
 date: {{ .Date }}
+description: 
+image: 
+toc: true
+license:
 lastmod: 
-draft: true
 hidden: false
 math: false
 slug: 
-image: 
-description: 
 tags: 
 categories: 
 ---
