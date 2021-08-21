@@ -137,6 +137,10 @@ related:
           weight: 200
 
 markup:
+    tableOfContents:
+        ordered: true
+        startLevel: 2
+        endLevel: 4
     highlight:
         noClasses: false
     goldmark:
