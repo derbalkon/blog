@@ -3,6 +3,7 @@
     --article-font-size: 1.6rem;
     --body-text-color: #7a7a7a;
     --body-background: #fafafa;
+    --card-background: #fefefe;
     --code-background-color: #f1f3f4;
     --scrollbar-thumb: #eaeaeaea;
     .chroma {
@@ -50,8 +51,8 @@
     }
     
     &[data-scheme="dark"] {
-        --body-background: #1b1b1b;
-        --card-background: #2e3235;
+        --body-background: #1b1b18;
+        --card-background: #27272a;
         --blockquote-background-color: #25282c;
         --code-background-color: #1f2224;
         --pre-background-color: #1f2224;
