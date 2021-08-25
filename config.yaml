@@ -82,7 +82,7 @@ params:
 
     colorScheme:
         # Display toggle
-        toggle: true
+        toggle: false
 
         # Available values: auto, light, dark
         default: auto
@@ -103,25 +103,25 @@ menu:
 
         - identifier: archives
           name: 所有文章
-          url: /post
+          url: /archives
           weight: -90
           pre: archives
 
         - identifier: about
           name: 关于我
-          url: about
+          url: /about
           weight: -80
           pre: user
 
         - identifier: files
           name: 货仓
-          url: https://files.wrrrr.me
+          url: https://drive.wrrrr.me
           weight: -70
           pre: storage
 
         - identifier: search
           name: 搜索
-          url: search
+          url: /search
           weight: -60
           pre: search
 
