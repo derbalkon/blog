@@ -33,7 +33,9 @@
     <script>
         (function() {
             const colorSchemeKey = 'StackColorScheme';
-            localStorage.setItem(colorSchemeKey, "auto");
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
         })();
     </script><script>
     (function() {
@@ -327,11 +329,11 @@
                 
                 <div class="widget--toc">
                     <nav id="TableOfContents">
-  <ol>
+  <ul>
     <li><a href="#用-opencore-引导有什么弊端">用 OpenCore 引导有什么弊端？</a></li>
     <li><a href="#为什么不用-boot-menu-引导-windows">为什么不用 Boot Menu 引导 Windows？</a></li>
     <li><a href="#折腾-boot-camp-的时候有那些坑">折腾 Boot Camp 的时候有那些坑？</a>
-      <ol>
+      <ul>
         <li><a href="#boot-camp-死活装不上">Boot Camp 死活装不上</a></li>
         <li><a href="#boot-camp-安装旷日持久甚至卡死">Boot Camp 安装旷日持久，甚至卡死</a></li>
         <li><a href="#mac-下的更改启动磁盘时报错">Mac 下的更改启动磁盘时报错</a></li>
@@ -341,9 +343,9 @@
         <li><a href="#opencore-启动菜单里没有-windows-选项">OpenCore 启动菜单里没有 Windows 选项！</a></li>
         <li><a href="#windows-蓝屏了">Windows 蓝屏了！！</a></li>
         <li><a href="#d-不见了">D:\ 不见了！！！</a></li>
-      </ol>
+      </ul>
     </li>
-  </ol>
+  </ul>
 </nav>
                 </div>
             </section>

@@ -33,7 +33,9 @@
     <script>
         (function() {
             const colorSchemeKey = 'StackColorScheme';
-            localStorage.setItem(colorSchemeKey, "auto");
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
         })();
     </script><script>
     (function() {
@@ -280,10 +282,10 @@
                 
                 <div class="widget--toc">
                     <nav id="TableOfContents">
-  <ol>
+  <ul>
     <li><a href="#about-this-blog">About this blog</a></li>
     <li><a href="#you-can-find-me">You can find me</a></li>
-  </ol>
+  </ul>
 </nav>
                 </div>
             </section>

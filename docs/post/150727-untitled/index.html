@@ -32,7 +32,9 @@
     <script>
         (function() {
             const colorSchemeKey = 'StackColorScheme';
-            localStorage.setItem(colorSchemeKey, "auto");
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
         })();
     </script><script>
     (function() {
@@ -278,14 +280,14 @@
                 
                 <div class="widget--toc">
                     <nav id="TableOfContents">
-  <ol>
+  <ul>
     <li>
-      <ol>
+      <ul>
         <li><a href="#去买东西">去买东西</a></li>
         <li><a href="#打风暴英雄">打风暴英雄</a></li>
-      </ol>
+      </ul>
     </li>
-  </ol>
+  </ul>
 </nav>
                 </div>
             </section>

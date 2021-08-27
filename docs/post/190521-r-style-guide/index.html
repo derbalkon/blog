@@ -33,7 +33,9 @@
     <script>
         (function() {
             const colorSchemeKey = 'StackColorScheme';
-            localStorage.setItem(colorSchemeKey, "auto");
+            if(!localStorage.getItem(colorSchemeKey)){
+                localStorage.setItem(colorSchemeKey, "auto");
+            }
         })();
     </script><script>
     (function() {
@@ -455,49 +457,49 @@ If you are editing code, take a few minutes to look at the code around you and d
                 
                 <div class="widget--toc">
                     <nav id="TableOfContents">
-  <ol>
+  <ul>
     <li><a href="#summary-r-style-rules">Summary: R Style Rules</a></li>
     <li><a href="#summary-r-language-rules">Summary: R Language Rules</a>
-      <ol>
+      <ul>
         <li><a href="#notation-and-naming">Notation and Naming</a>
-          <ol>
+          <ul>
             <li><a href="#file-names">File Names</a></li>
             <li><a href="#identifiers">Identifiers</a></li>
-          </ol>
+          </ul>
         </li>
         <li><a href="#syntax">Syntax</a>
-          <ol>
+          <ul>
             <li><a href="#line-length">Line Length</a></li>
             <li><a href="#indentation">Indentation</a></li>
             <li><a href="#spacing">Spacing</a></li>
             <li><a href="#curly-braces">Curly Braces</a></li>
             <li><a href="#assignment">Assignment</a></li>
             <li><a href="#semicolons">Semicolons</a></li>
-          </ol>
+          </ul>
         </li>
         <li><a href="#organization">Organization</a>
-          <ol>
+          <ul>
             <li><a href="#general-layout-and-ordering">General Layout and Ordering</a></li>
             <li><a href="#commenting-guidelines">Commenting Guidelines</a></li>
             <li><a href="#function-definitions-and-calls">Function Definitions and Calls</a></li>
             <li><a href="#function-documentation">Function Documentation</a></li>
             <li><a href="#example-function">Example Function</a></li>
             <li><a href="#todo-style">TODO Style</a></li>
-          </ol>
+          </ul>
         </li>
         <li><a href="#language">Language</a>
-          <ol>
+          <ul>
             <li><a href="#attach">Attach</a></li>
             <li><a href="#functions">Functions</a></li>
             <li><a href="#objects-and-methods">Objects and Methods</a></li>
-          </ol>
+          </ul>
         </li>
         <li><a href="#exceptions">Exceptions</a></li>
         <li><a href="#parting-words">Parting Words</a></li>
         <li><a href="#references">References</a></li>
-      </ol>
+      </ul>
     </li>
-  </ol>
+  </ul>
 </nav>
                 </div>
             </section>
