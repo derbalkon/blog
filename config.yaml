@@ -82,7 +82,7 @@ params:
 
     colorScheme:
         # Display toggle
-        toggle: false
+        toggle: true
 
         # Available values: auto, light, dark
         default: auto
@@ -138,7 +138,7 @@ related:
 
 markup:
     tableOfContents:
-        ordered: true
+        ordered: false
         startLevel: 2
         endLevel: 4
     highlight:

@@ -49,16 +49,28 @@
             width: 20%;
         }
     }
-    
+
+    footer.site-footer {
+        &:before {
+            background: #e40303;
+            background: linear-gradient(90deg, #e40303 0%, #e40303 17%, #ff8c00 17%, #ff8c00 34%, #ffed00 34%, #ffed00 50%, #008026 50%, #008026 67%, #004dff 67%, #004dff 84%, #750787 84%, #750787 100%);
+        }
+    }
+
     &[data-scheme="dark"] {
-        --body-background: #1b1b18;
+        --body-background: #18181b;
         --card-background: #27272a;
-        --blockquote-background-color: #25282c;
+        --blockquote-background-color: #2f2f30;
         --code-background-color: #1f2224;
         --pre-background-color: #1f2224;
         --scrollbar-thumb: #2e323550;
         .chroma {
             background-color: #1f2224;
         }
+        footer.site-footer {
+            &:before {
+                opacity: 0.8;
+            }
+        }    
     }
 }
