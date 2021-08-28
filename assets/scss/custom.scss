@@ -52,8 +52,8 @@
 
     footer.site-footer {
         &:before {
-            background: #e40303;
-            background: linear-gradient(90deg, #e40303 0%, #e40303 17%, #ff8c00 17%, #ff8c00 34%, #ffed00 34%, #ffed00 50%, #008026 50%, #008026 67%, #004dff 67%, #004dff 84%, #750787 84%, #750787 100%);
+            background: #7FC558;
+            background: linear-gradient(90deg, #7FC558 0%, #7FC558 17%, #F7CC4F 17%, #F7CC4F 34%, #EB9D47 34%, #EB9D47 50%, #D5655F 50%, #D5655F 67%, #9846A0 67%, #9846A0 84%, #4DA5DF 84%, #4DA5DF 100%);
         }
     }
 
@@ -69,7 +69,8 @@
         }
         footer.site-footer {
             &:before {
-                opacity: 0.8;
+                background: #50A22E;
+                background: linear-gradient(90deg, #50A22E 0%, #50A22E 17%, #EEA439 17%, #EEA439 34%, #E16028 34%, #E16028 50%, #C3291C 50%, #C3291C 67%, #4E0C55 67%, #4E0C55 84%, #2A62A8 84%, #2A62A8 100%);
             }
         }    
     }
