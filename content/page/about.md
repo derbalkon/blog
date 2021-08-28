@@ -19,7 +19,7 @@ I took this photo simply out of the thought of documenting the mess, as with eve
 
 This blog is built based on [Hugo](https://gohugo.io).
 
-The theme originates from jimmycar's [stack](https://github.com/CaiJimmy/hugo-theme-stack) and barely touched anything.
+The theme originates from jimmycai's [stack](https://github.com/CaiJimmy/hugo-theme-stack) and barely touched anything.
 
 ## You can find me
 

@@ -12,7 +12,7 @@
         <pubDate>Mon, 01 Jun 2020 00:00:00 +0000</pubDate>
         
         <guid>https://blog.wrrrr.me/post/200601-hackintosh-bootcamp/</guid>
-        <description>&lt;img src="https://blog.wrrrr.me/post/image/cover-image.png" alt="Featured image of post 喜闻乐见的 Boot Camp (Hackintosh) 踩坑集锦" /&gt;&lt;p&gt;自从年初使用了广为流传的 300 系主板的原生 NVRAM 解法，并且全面转换到 OpenCore 引导 macOS 之后，几乎已经忘了这台主机是一台 PC 了。偶尔出于娱乐和兼容的需求要用到 Windows，又苦于 Parallels Desktop 的订阅份额被自己的 MacBook Pro 用掉了，于是萌生了利用 Boot Camp 进行启动转换的想法，让这台 PC 向 Mac 更进一步。&lt;del&gt;既然要追求极致，那就贯彻到底咯～（什么烂梗）&lt;/del&gt;&lt;/p&gt;
+        <description>&lt;img src="https://blog.wrrrr.me/post/image/200601-cover.webp" alt="Featured image of post 喜闻乐见的 Boot Camp (Hackintosh) 踩坑集锦" /&gt;&lt;p&gt;自从年初使用了广为流传的 300 系主板的原生 NVRAM 解法，并且全面转换到 OpenCore 引导 macOS 之后，几乎已经忘了这台主机是一台 PC 了。偶尔出于娱乐和兼容的需求要用到 Windows，又苦于 Parallels Desktop 的订阅份额被自己的 MacBook Pro 用掉了，于是萌生了利用 Boot Camp 进行启动转换的想法，让这台 PC 向 Mac 更进一步。&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;注意&lt;/strong&gt;：这里所说的 Boot Camp 仅仅是指 &lt;strong&gt;启动转换&lt;/strong&gt;，而不是用 Boot Camp 去安装 Windows。理论上这样做是可行的，但是 PC 毕竟不是 Mac，在硬盘数量、分区或者其他一些东西上有差别，会导致 Boot Camp 系统盘制作错误、安装错误等等玄学问题。&lt;/p&gt;
 &lt;h2 id=&#34;用-opencore-引导有什么弊端&#34;&gt;用 OpenCore 引导有什么弊端？&lt;/h2&gt;
 &lt;p&gt;正如 &lt;a class=&#34;link&#34; href=&#34;https://github.com/acidanthera/OpenCorePkg/blob/master/Docs/Configuration.pdf&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
@@ -32,12 +32,12 @@
 &lt;/ul&gt;
 &lt;h2 id=&#34;折腾-boot-camp-的时候有那些坑&#34;&gt;折腾 Boot Camp 的时候有那些坑？&lt;/h2&gt;
 &lt;p&gt;由于我本人的机器仅仅是单硬盘双系统（分区为简单的 &lt;code&gt;EFI&lt;/code&gt; + &lt;code&gt;Macintosh HD&lt;/code&gt; + &lt;code&gt;Windows HD&lt;/code&gt;），因此下面的所有描述都是在单硬盘双系统的情况下，可能遇到问题和相应解法。&lt;/p&gt;
-&lt;h3 id=&#34;boot-camp-死活装不上&#34;&gt;Boot Camp 死活装不上&lt;/h3&gt;
+&lt;h3 id=&#34;死活装不上&#34;&gt;死活装不上&lt;/h3&gt;
 &lt;p&gt;当我定制好了 ACPI 和 SMBIOS，满怀欣喜地引导到 Windows 时，突然发现自己准备好的 Boot Camp 安装包无法完成安装，提示我不支持在这台机器上安装。&lt;/p&gt;
 &lt;p&gt;难道没有被识别为 Mac？&lt;/p&gt;
 &lt;p&gt;于是打开 AIDA64，看了一眼，果然概览还是显示为 MSI，而不是 iMac19,1。那么问题肯定就处在 SMBIOS 身上了。仔细地排查了一下机型信息，发现并没有哪里填的不对。后来看了一眼官方文档才知道，原来从 OpenCore 0.5.8 开始，把 &lt;code&gt;UpdateSMBIOSMode&lt;/code&gt; 设置为 &lt;code&gt;Custom&lt;/code&gt;，所填写的 SMBIOS 信息就不会被应用到 Windows 了。于是改回 &lt;code&gt;Create&lt;/code&gt;，让 OpenCore 自己根据 &lt;code&gt;Generic&lt;/code&gt; 里填写的必要信息生成一套齐全的 SMBIOS，果然成功安装。&lt;/p&gt;
 &lt;p&gt;在这里值得一提的是：当你把 UUID 填写为主板本身的 UUID 时，因为某些主板本身的 UUID 可能错的、不是随机生成的，Mac 下通过 Hackintool 查看会发现，&lt;code&gt;系统 ID&lt;/code&gt;（也就是 &lt;code&gt;system-id&lt;/code&gt;）可能会显示为 &lt;code&gt;???&lt;/code&gt;，但目前就我本人的体验来看，并没有什么实质性的影响。&lt;/p&gt;
-&lt;h3 id=&#34;boot-camp-安装旷日持久甚至卡死&#34;&gt;Boot Camp 安装旷日持久，甚至卡死&lt;/h3&gt;
+&lt;h3 id=&#34;安装旷日持久甚至卡死&#34;&gt;安装旷日持久，甚至卡死&lt;/h3&gt;
 &lt;p&gt;看起来像是卡死了，实际上只是在原地待命，因为没有提前把不需要的驱动程序从大礼包中删掉，Boot Camp 不认识这台设备——「这不是我认识的那个 Mac！」。因此只需要删掉不需要的驱动即可。&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;如果你有 Apple 的拆机无线卡，&lt;code&gt;$WinPEDriver$&lt;/code&gt; 文件夹中，除了 &lt;code&gt;AppleBluetoothBroadcom&lt;/code&gt;, &lt;code&gt;BroadcomWireless&lt;/code&gt;, &lt;code&gt;BroadcomBluetooth&lt;/code&gt; 之外，其他都可以删掉。&lt;/li&gt;
@@ -60,6 +60,14 @@
 &lt;p&gt;常见的错误代码可能是 &lt;code&gt;0xc000000d&lt;/code&gt;，一般都是 config 没有配置好导致的。看看 &lt;code&gt;SyncRuntimePermissions&lt;/code&gt; 有没有启用。新主板可能还要启用 &lt;code&gt;ProtectUefiServices&lt;/code&gt;，13 年以前的主板可能要启用 &lt;code&gt;ProtectMemoryRegions&lt;/code&gt;。&lt;/p&gt;
 &lt;h3 id=&#34;d-不见了&#34;&gt;D:\ 不见了！！！&lt;/h3&gt;
 &lt;p&gt;原生的 Boot Camp 的逻辑是，创建一个 D 盘分区作为安装目录，把 Windows 安装到 C 盘，成功安装后 D 盘就功成身退。尽管你不是通过 Boot Camp 安装的 Windows，但当你有多个分区的时候，你的下一个分区依然会被 Boot Camp 误认为是安装目录了。解决这个的办法很简单，用 &lt;strong&gt;傲梅分区助手&lt;/strong&gt; 把 D 盘取消隐藏即可。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;附&lt;/strong&gt;：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;OpenCore 已迭代数版，截至本文写就，许多内容可能已经发生变化；&lt;/li&gt;
+&lt;li&gt;本文所使用的 OpenCore 配置参见由我维护的 &lt;a class=&#34;link&#34; href=&#34;https://github.com/derbalkon/B360M-CoffeeLake-Hackintosh&#34;  target=&#34;_blank&#34; rel=&#34;noopener&#34;
+    &gt;B360-CoffeeLake-Hackintosh&lt;/a&gt; 仓库。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
 </description>
         </item>
         <item>
@@ -68,7 +76,7 @@
         <pubDate>Tue, 21 May 2019 00:00:00 +0000</pubDate>
         
         <guid>https://blog.wrrrr.me/post/190521-r-style-guide/</guid>
-        <description>&lt;img src="https://blog.wrrrr.me/post/image/cover-r-style-guide.jpg" alt="Featured image of post Google&#39;s R Style Guide" /&gt;&lt;p&gt;R is a high-level programming language used primarily for statistical computing and graphics. The goal of the R Programming Style Guide is to make our R code easier to read, share, and verify. The rules below were designed in collaboration with the entire R user community at Google.&lt;/p&gt;
+        <description>&lt;img src="https://blog.wrrrr.me/post/image/190521-cover.webp" alt="Featured image of post Google&#39;s R Style Guide" /&gt;&lt;p&gt;R is a high-level programming language used primarily for statistical computing and graphics. The goal of the R Programming Style Guide is to make our R code easier to read, share, and verify. The rules below were designed in collaboration with the entire R user community at Google.&lt;/p&gt;
 &lt;h2 id=&#34;summary-r-style-rules&#34;&gt;Summary: R Style Rules&lt;/h2&gt;
 &lt;ol&gt;
 &lt;li&gt;File Names: end in &lt;code&gt;.R&lt;/code&gt;&lt;/li&gt;
@@ -264,14 +272,14 @@ If you are editing code, take a few minutes to look at the code around you and d
         <pubDate>Sun, 25 Oct 2015 00:00:00 +0000</pubDate>
         
         <guid>https://blog.wrrrr.me/post/151025-way-too-discipline/</guid>
-        <description>&lt;p&gt;现在时间零点十分，戒律先生一晚上都在捣鼓他们那名为「青春献给党」，实为党史答题的活动题目，他一定要弄完才睡觉，不禁让我觉得，他的确是把这一晚献给了党。&lt;/p&gt;
+        <description>&lt;img src="https://blog.wrrrr.me/post/image/151025-cover.webp" alt="Featured image of post 憎恨必须要得到戒律的锤炼" /&gt;&lt;p&gt;现在时间零点十分，戒律先生一晚上都在捣鼓他们那名为「青春献给党」，实为党史答题的活动题目，他一定要弄完才睡觉，不禁让我觉得，他的确是把这一晚献给了党。&lt;/p&gt;
 &lt;p&gt;前一晚上考完了局解，戒律先生心情愉快地向我推荐了一家韩国料理店，说量特别大味道还不错。是的，他判断一家餐厅是否优秀的第一标准是量是否足，实属实用主义之至宝，过日子之不二人选，这一点我应该时刻记住的，但这是后话了——于是今天千里迢迢去了那家店，惊喜的是竟然就在南大本部西边那条小巷里，在一堆动漫店和宠物店的旁边杵着；惊恐的是其实就是彭城一号的芝士年糕火锅，倒确实是靠量大取胜。惊恐大于惊喜，老子信了你的邪，站在十月末的风里，默默地想着怎么回去手撕了他。&lt;/p&gt;
 &lt;p&gt;倒也不怪他，同学 15 年（孽缘啊，菩萨）他的习性很容易摸清。严格守纪，军训先进个人，课堂纪律先锋，戒律先生甚至有一个做事模式：中午 12 点 40 磨咖啡豆，看一集动漫，无论看不看得完，1 点钟准时关掉电脑刷手机动态，30 分钟后洗把脸，整理书包书桌，1 点 45 准时去上课，晚上 9 点整，给家里打电话，日复一日，雷打不动。如果计划被打乱，或者行动顺序被打乱，这一整天也别想见到他的笑容了。如果不了解的话，大概会觉得他是个被设定了程序的机器人了。&lt;/p&gt;
 &lt;p&gt;我倒是非常非常欣赏他的这点性格，或者一定程度上说，我曾经也跟戒律先生有着相同的行为原则，而这个曾经是在高中之前了。小班化的小学和县初中的同化让我觉得，大家似乎都是这么个性格。中考之后，戒律先生去了县重点高中，我去了市重点高中，他保持了他的戒律，我尝到了一些放纵的甜头。这让我在戒律和不羁之间两头望，而他倒仍是唯一信条者。畏首畏尾、选最稳妥的选择、不敢越雷池半步，这些看似都是贬义，对于戒律先生却是必修，有时候我甚至会觉得这么活着真是一点乐趣都没有，但是戒律先生一次又一次地证明了他最稳妥的生活方式会给他带来最稳妥的结果，永远活在正态分布的最密集处，满足却从不失望。无论多喜欢，不实惠的饭不吃，不实用的事情不做，太奢侈的东西不买，为一个不情愿的事情撒一个谁都看得出来的谎，社会主义无产阶级的终极理想。&lt;/p&gt;
-&lt;p&gt;早上盒子发了一个链接给我，「好物凭良心推给你们爱买不买」，大概知道她这条是发给了两个人，于是打开看了一下觉得，首先并不缺耳机，其次实在是没看得上，于是我的实用主义又一次犯了贱——印象最深的上一次，是他俩攒钱买了个银色 Shuffle 给我，而我却因为质量问题各种去店里打算换掉——果断拒绝了之后对面发来「不信算了」「不过你的确没有那么适合它」，可能确实是不怎么适合吧，又或许只是个台阶而已，因为十有八九另一个接收到此链接的人已经下单了，不禁让我想到上一次拒绝她关于「拿一部分钱出来作为活动资金想买什么买什么」的提议，即使脑袋里清楚其实她来戳我不纯粹只是想要拉我入坑这么简单。如果在高中的时候，我也许会不假思索地答应，但是到了大学之后，这种热情倒是一点一点地被削弱了，一次又一次地拒绝了她的各种推荐，反而跟着戒律先生的步伐越走越远。&lt;/p&gt;
+&lt;p&gt;早上盒子发了一个链接给我，「好物凭良心推给你们爱买不买」，大概知道她这条是发给了两个人，于是打开看了一下觉得，首先并不缺耳机，其次实在是没看得上，于是我的实用主义又一次犯了贱——印象最深的上一次，是他俩攒钱买了个银色 iPod Shuffle 给我，而我却因为质量问题各种去店里打算换掉——果断拒绝了之后对面发来「不信算了」「不过你的确没有那么适合它」，可能确实是不怎么适合吧，又或许只是个台阶而已，因为十有八九另一个接收到此链接的人已经下单了，不禁让我想到上一次拒绝她关于「拿一部分钱出来作为活动资金想买什么买什么」的提议，即使脑袋里清楚其实她来戳我不纯粹只是想要拉我入坑这么简单。如果在高中的时候，我也许会不假思索地答应，但是到了大学之后，这种热情倒是一点一点地被削弱了，一次又一次地拒绝了她的各种推荐，反而跟着戒律先生的步伐越走越远。&lt;/p&gt;
 &lt;p&gt;我们彼此因为喜欢同样的东西走到一起，又因为不同的观点渐行渐远，就在三角变成两角，并且觉得也快要失去她的时候，她寄来了一箱热爱，让我觉得那其实是我的错觉，才是我真正的错觉。&lt;/p&gt;
-&lt;p&gt;「憎恨必须要得到戒律的锤炼。」语出暗黑破坏神的猎魔人，虽然毫不搭调，突然这句话就蹦到了脑子里，因为我也开始放弃了各种以前钟爱的游戏们，和我之前「就算是上班了也要攒钱买一台 PS4」背道而驰，但这并不受控。&lt;/p&gt;
-&lt;p&gt;我觉得我活得拘谨且拧巴，戒律先生倒是一如既往地拘谨地跟着他的程序向前走；我觉得我在走一个一圈比一圈大的螺旋，戒律先生依然不管是不是在走螺旋地不回头地向前走。不过这并没有什么不妥，因为并不受控。&lt;/p&gt;
+&lt;p&gt;「憎恨必须要得到戒律的锤炼」语出暗黑破坏神的猎魔人，虽然毫不搭调，突然这句话就蹦到了脑子里，因为我也开始放弃了各种以前钟爱的游戏们，和我之前「就算是上班了也要攒钱买一台 PS4」背道而驰，但这并不受控。&lt;/p&gt;
+&lt;p&gt;我觉得我活得拘谨且拧巴，戒律先生倒是一如既往地跟着他的程序向前走；我觉得我在走一个一圈比一圈大的螺旋，戒律先生依然不管是不是在走螺旋地不回头地向前走。不过这并没有什么不妥，因为并不受控。&lt;/p&gt;
 </description>
         </item>
         <item>
@@ -280,15 +288,15 @@ If you are editing code, take a few minutes to look at the code around you and d
         <pubDate>Sun, 11 Oct 2015 00:00:00 +0000</pubDate>
         
         <guid>https://blog.wrrrr.me/post/151011-being-cool/</guid>
-        <description>&lt;p&gt;但是已经好久没更新了，再这么下去怕连自己都忘了。总在自带的备忘录里挖坑写标题，而事实上常常是写了标题又两行之后，寻思寻思觉得实在没什么好写，果然还是算了吧，上次发生这种事的时候还是去年，于是整个社交软件都荒废个半年，一般发生这种事情的时候不是过得特别逆就是特别顺，回头想想最近并没有多么不堪，但也谈不上很顺——所以果然是没什么话想说了 =L=&lt;/p&gt;
+        <description>&lt;img src="https://blog.wrrrr.me/post/image/151011-cover.webp" alt="Featured image of post 倒也不是很想写什么" /&gt;&lt;p&gt;但是已经好久没更新了，再这么下去怕连自己都忘了。总在自带的备忘录里挖坑写标题，而事实上常常是写了标题又两行之后，寻思寻思觉得实在没什么好写，果然还是算了吧，上次发生这种事的时候还是去年，于是整个社交软件都荒废个半年，一般发生这种事情的时候不是过得特别逆就是特别顺，回头想想最近并没有多么不堪，但也谈不上很顺——所以果然是没什么话想说了……&lt;/p&gt;
 &lt;blockquote&gt;
-&lt;p&gt;十一假期没过好，电脑坏了，准确地说是 iMessage 和 FaceTime 整个挂掉了，无论我怎么重装系统怎么开机重置都于事无补，于是那几天没有睡得很好，原因之一是迫不及待地想要弄清楚缘由，性子急就好像之后的一天之内向 Apple 支持接连投送了 4 个案例一样——是的 Apple 支持，这就是原因之二，劳资怎么就平生第一次对软件层面的问题束手无策了呢，神 tm 不安，此间突然又想到了日本人那一套「不愿做出真正的改革，还在奇怪为何世界离自己而去了」，于是更不安了。&lt;/p&gt;
+&lt;p&gt;十一假期没过好，电脑坏了，准确地说是 iMessage 和 FaceTime 整个挂掉了，无论我怎么重装系统怎么开机重置都于事无补，于是那几天没有睡得很好，原因之一是迫不及待地想要弄清楚缘由，性子急就好像之后的一天之内向 Apple 支持接连投送了 4 个案例一样——是的 Apple 支持，这就是原因之二，劳资怎么就平生第一次对软件层面的问题束手无策了呢，十分不安，此间突然又想到了日本人那一套「不愿做出真正的改革，还在奇怪为何世界离自己而去了」，于是更不安了。&lt;/p&gt;
 &lt;p&gt;之后的事情就越来越偏离我的掌控范围了：跟着客服做着白痴一样的调试（此前我一直嗤之以鼻当时却是认真地跟着步骤一丝不苟或许是因为真的没办法了吧），意料之中地毫无帮助，于是 Capture Data 了一份系统信息传给高级工程师静候秋后问斩佳音。不过客服倒是很负责，中间断了线还诚惶诚恐地发邮件过来询问我是否有别的事情、是否要安排其他时间——哦！一个焦头烂额的客户被温柔地对待了，感动得差点要给 Apple 写表扬信了。&lt;/p&gt;
 &lt;p&gt;过了 24 小时觉得自己果然还是不能这么干等着下去，于是立刻预约了一个回宁次日的 Genius Bar 维修，拉着大爽去了虹悦城那家直营店，不是因为硬件问题而维修，心情已经复杂到没法像当初提 iPhone 6s 货时那样平心静气地欣赏店里的 gay engineers 了（这么个设定其实还挺性感的，又会打扮又是技术宅，以至于后来大爽后知后觉地告诉我，她觉得这里的人颜值虽然不高但是就是觉得很想嫁，LMAO）。&lt;/p&gt;
 &lt;p&gt;最后电脑好了，但是却不知道怎么好的，回过神来的时候那个帮我修电脑的胖葛革已经不见了，这种泽拉图式闪现并 carry 全场的行为帅了我一脸——哦！一个焦头烂额的客户再一次被温柔地对待了，再一次感动得差点要给 Apple 写表扬信了。——但是我最终还是没能知道原因是什么，但是我最终还是没能知道原因是什么。&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;p&gt;以上是我那天写了一半的东西，最后一句话在心里念了大半天也没能找一句话接下去——最近确实是变得不那么有趣了，而我觉得一个人最重要的就是要有趣了。昨天在知乎看到了一个《当你意识到自己很平庸时是怎样的情景》的问题，赞同了一个很挥斥方遒的答案，但是自己心里想的却是，自己当年意识到的时候却是出人意料地四平八稳，一切都没关系了，当一个小透明也未尝不可。但是反观《空之境界》里的黑桐干也，其&lt;del&gt;起源为 Google&lt;/del&gt;「贯彻普通到底，比任何人都不会伤害人」，也是一个透明人，却因为实在是太默默无闻而能够轻易地搜集掌握着所有信息，这就是另一种有趣了——所以一个平庸的人未必无趣，无趣的人便是真的无趣了。&lt;/p&gt;
-&lt;p&gt;今早远在美帝的小新学弟隔着时差发了一条关于华夫饼早餐的说说，让我恍惚地以为他的肉身还在上海。所以一个有趣的人应该是天然无矫饰地广播自己的频率，而我最近却是越活越像一个段子手了。&lt;/p&gt;
+&lt;p&gt;今早远在美帝的小辛隔着时差发了一条关于华夫饼早餐的说说，让我恍惚地以为他的肉身还在上海。所以一个有趣的人应该是天然无矫饰地广播自己的频率，而我最近却是越活越像一个段子手了。&lt;/p&gt;
 </description>
         </item>
         <item>
@@ -339,8 +347,8 @@ Talk about what you love and keep quiet about what you hate.&lt;/p&gt;
         <pubDate>Wed, 06 May 2015 00:00:00 +0000</pubDate>
         
         <guid>https://blog.wrrrr.me/post/150506-angry-mom/</guid>
-        <description>&lt;p&gt;第四集，永远正能量爆棚的，善良纯真到天真的新任班主任，和被卷入高层权力斗争，陷入校园暴力的女学生，前者挂着爽朗温暖的笑容：「在你们这个年纪啊，什么都看得认真才是正常的，好多现在难过得要死的事情在以后看来都是一阵风而已。」女学生冷冷看着他：「老师你什么都不知道。在你眼里世界或许像诗一样美丽，但在我眼里却是地狱。」不久，女学生因为搜集证据自保而被人从天台推下去灭了口。老师揣着头一晚写给女学生的信悲痛万分，信上说：这个世界没有那么美丽，但也没有那么糟糕。然而地上一滩血迹就在那里说：&lt;strong&gt;不，它就是这样糟糕。&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;我们总是这样轻视他人的痛苦，「不就是 xxxx 了嘛，有什么呢？以后你就不会觉得难过了。」可是你怎么能够轻浮地用不可知的未来来敷衍一个当下就被痛苦折磨的人？你作为过来人，有资格评论的也是你自己的过去，用你的过去时去否定别人的现在时，无论你说得多么恳切温柔，都是对当事人的凌虐与侮辱。&lt;/p&gt;
+        <description>&lt;p&gt;第四集，永远正能量爆棚的，善良纯真到天真的新任班主任，和被卷入高层权力斗争，陷入校园暴力的女学生，前者挂着爽朗温暖的笑容：「在你们这个年纪啊，什么都看得认真才是正常的，好多现在难过得要死的事情在以后看来都是一阵风而已」。女学生冷冷看着他：「老师你什么都不知道。在你眼里世界或许像诗一样美丽，但在我眼里却是地狱」。不久，女学生因为搜集证据自保而被人从天台推下去灭了口。老师揣着头一晚写给女学生的信悲痛万分，信上说：这个世界没有那么美丽，但也没有那么糟糕。然而地上一滩血迹就在那里说：&lt;strong&gt;不，它就是这样糟糕。&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;我们总是这样轻视他人的痛苦，「不就是 xxxx 了嘛，有什么呢？以后你就不会觉得难过了」。可是你怎么能够轻浮地用不可知的未来来敷衍一个当下就被痛苦折磨的人？你作为过来人，有资格评论的也是你自己的过去，用你的过去时去否定别人的现在时，无论你说得多么恳切温柔，都是对当事人的凌虐与侮辱。&lt;/p&gt;
 </description>
         </item>
         <item>
@@ -469,7 +477,7 @@ Talk about what you love and keep quiet about what you hate.&lt;/p&gt;
         <pubDate>Sun, 31 Aug 2014 00:00:00 +0000</pubDate>
         
         <guid>https://blog.wrrrr.me/post/140831-untitled-01/</guid>
-        <description>&lt;img src="https://blog.wrrrr.me/post/image/140831-cover.png" alt="Featured image of post お元気ですか？" /&gt;&lt;blockquote&gt;
+        <description>&lt;img src="https://blog.wrrrr.me/post/image/140831-cover.webp" alt="Featured image of post お元気ですか？" /&gt;&lt;blockquote&gt;
 &lt;p&gt;お元気ですか？&lt;br&gt;
 私はお 元気です!&lt;/p&gt;
 &lt;/blockquote&gt;
@@ -495,7 +503,7 @@ Talk about what you love and keep quiet about what you hate.&lt;/p&gt;
         <pubDate>Sat, 23 Aug 2014 00:00:00 +0000</pubDate>
         
         <guid>https://blog.wrrrr.me/post/140823-one-song/</guid>
-        <description>&lt;p&gt;于此同时，初中的我在晚上 9 点，在暴雨里，从校门口骑着自行车疯狂往家骑，路况极佳，轮胎轧过积水一路火花带闪电。&lt;/p&gt;
+        <description>&lt;p&gt;与此同时，初中的我在晚上 9 点，在暴雨里，从校门口骑着自行车疯狂往家骑，路况极佳，轮胎轧过积水一路火花带闪电。&lt;/p&gt;
 &lt;p&gt;——现在零点二十四分了，那个我已经睡着了吧。&lt;/p&gt;
 &lt;div class=&#34;video-wrapper&#34;&gt;
     &lt;iframe loading=&#34;lazy&#34; 

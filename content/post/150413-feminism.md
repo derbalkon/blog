@@ -2,6 +2,7 @@
 title: 如此这般
 date: 2015-04-13
 description: 一些有关权益运动的事情。
+license: false
 ---
 
 弗洛姆在《爱的艺术》里说：

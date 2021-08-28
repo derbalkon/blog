@@ -1,8 +1,9 @@
 ---
 title: Google's R Style Guide
 date: 2019-05-21
-image: /post/image/cover-r-style-guide.jpg
+image: /post/image/190521-cover.webp
 description: A copy for linting reference.
+license: false
 ---
 
 R is a high-level programming language used primarily for statistical computing and graphics. The goal of the R Programming Style Guide is to make our R code easier to read, share, and verify. The rules below were designed in collaboration with the entire R user community at Google.
