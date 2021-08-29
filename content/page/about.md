@@ -1,7 +1,7 @@
 ---
 title: About
 description: Something about me.
-image: /image/about.webp
+image: /post/image/about.webp
 license: false
 toc: false
 ---
