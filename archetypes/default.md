@@ -9,7 +9,5 @@ lastmod:
 hidden: false
 math: false
 slug: 
-tags: 
-categories: 
 ---
 

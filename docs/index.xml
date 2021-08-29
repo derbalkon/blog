@@ -5,7 +5,7 @@
         <link>https://blog.wrrrr.me/</link>
         <description>Recent content on Void Space</description>
         <generator>Hugo -- gohugo.io</generator>
-        <language>en-us</language>
+        <language>zh-cn</language>
         <lastBuildDate>Mon, 01 Jun 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.wrrrr.me/index.xml" rel="self" type="application/rss+xml" /><item>
         <title>喜闻乐见的 Boot Camp (Hackintosh) 踩坑集锦</title>
         <link>https://blog.wrrrr.me/post/200601-hackintosh-bootcamp/</link>
@@ -288,7 +288,7 @@ If you are editing code, take a few minutes to look at the code around you and d
         <pubDate>Sun, 11 Oct 2015 00:00:00 +0000</pubDate>
         
         <guid>https://blog.wrrrr.me/post/151011-being-cool/</guid>
-        <description>&lt;img src="https://blog.wrrrr.me/post/image/151011-cover.webp" alt="Featured image of post 倒也不是很想写什么" /&gt;&lt;p&gt;但是已经好久没更新了，再这么下去怕连自己都忘了。总在自带的备忘录里挖坑写标题，而事实上常常是写了标题又两行之后，寻思寻思觉得实在没什么好写，果然还是算了吧，上次发生这种事的时候还是去年，于是整个社交软件都荒废个半年，一般发生这种事情的时候不是过得特别逆就是特别顺，回头想想最近并没有多么不堪，但也谈不上很顺——所以果然是没什么话想说了……&lt;/p&gt;
+        <description>&lt;p&gt;但是已经好久没更新了，再这么下去怕连自己都忘了。总在自带的备忘录里挖坑写标题，而事实上常常是写了标题又两行之后，寻思寻思觉得实在没什么好写，果然还是算了吧，上次发生这种事的时候还是去年，于是整个社交软件都荒废个半年，一般发生这种事情的时候不是过得特别逆就是特别顺，回头想想最近并没有多么不堪，但也谈不上很顺——所以果然是没什么话想说了……&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;十一假期没过好，电脑坏了，准确地说是 iMessage 和 FaceTime 整个挂掉了，无论我怎么重装系统怎么开机重置都于事无补，于是那几天没有睡得很好，原因之一是迫不及待地想要弄清楚缘由，性子急就好像之后的一天之内向 Apple 支持接连投送了 4 个案例一样——是的 Apple 支持，这就是原因之二，劳资怎么就平生第一次对软件层面的问题束手无策了呢，十分不安，此间突然又想到了日本人那一套「不愿做出真正的改革，还在奇怪为何世界离自己而去了」，于是更不安了。&lt;/p&gt;
 &lt;p&gt;之后的事情就越来越偏离我的掌控范围了：跟着客服做着白痴一样的调试（此前我一直嗤之以鼻当时却是认真地跟着步骤一丝不苟或许是因为真的没办法了吧），意料之中地毫无帮助，于是 Capture Data 了一份系统信息传给高级工程师静候秋后问斩佳音。不过客服倒是很负责，中间断了线还诚惶诚恐地发邮件过来询问我是否有别的事情、是否要安排其他时间——哦！一个焦头烂额的客户被温柔地对待了，感动得差点要给 Apple 写表扬信了。&lt;/p&gt;

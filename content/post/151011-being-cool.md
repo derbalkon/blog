@@ -1,7 +1,6 @@
 ---
 title: 倒也不是很想写什么
 date: 2015-10-11
-image: /post/image/151011-cover.webp
 description: Being cool.
 ---
 

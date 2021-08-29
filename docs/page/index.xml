@@ -5,21 +5,8 @@
     <link>https://blog.wrrrr.me/page/</link>
     <description>Recent content in Pages on Void Space</description>
     <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Thu, 13 Feb 2020 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.wrrrr.me/page/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>About</title>
-      <link>https://blog.wrrrr.me/about/</link>
-      <pubDate>Thu, 13 Feb 2020 00:00:00 +0000</pubDate>
-      
-      <guid>https://blog.wrrrr.me/about/</guid>
-      <description>Hi there This is Ryan (@derbalkon).
-The photo above was taken when I was in my third year at med school, and it&amp;rsquo;s called Modern and Broken, when the new building was just taking shape, next to the ruins.
-I took this photo simply out of the thought of documenting the mess, as with everything else in the world.
-About this blog This blog is built based on Hugo.
-The theme originates from jimmycai&amp;rsquo;s stack and barely touched anything.</description>
-    </item>
-    
+    <language>zh-cn</language>
+    <lastBuildDate>Tue, 28 May 2019 00:00:00 +0000</lastBuildDate><atom:link href="https://blog.wrrrr.me/page/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>归档</title>
       <link>https://blog.wrrrr.me/archives/</link>
@@ -27,6 +14,19 @@ The theme originates from jimmycai&amp;rsquo;s stack and barely touched anything
       
       <guid>https://blog.wrrrr.me/archives/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>About</title>
+      <link>https://blog.wrrrr.me/about/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://blog.wrrrr.me/about/</guid>
+      <description>This is Ryan (@derbalkon).
+The photo above was taken when I was in my third year at med school, and it&amp;rsquo;s called Modern and Broken, when the new building was just taking shape, next to the ruins.
+I took this photo simply out of the thought of documenting the mess, as with everything else in the world.
+About this blog This blog is built based on Hugo.
+The theme originates from jimmycai&amp;rsquo;s stack and barely touched anything.</description>
     </item>
     
     <item>
