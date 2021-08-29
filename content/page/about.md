@@ -1,13 +1,10 @@
 ---
 title: About
 description: Something about me.
-date: 2020-02-13
-image: /post/image/about.jpeg
-license: "CC BY-NC-ND"
-# lastmod: "2020-10-09"
+image: /image/about.webp
+license: false
+toc: false
 ---
-
-# Hi there
 
 This is Ryan ([@derbalkon](https://github.com/derbalkon)).
 
@@ -23,6 +20,6 @@ The theme originates from jimmycai's [stack](https://github.com/CaiJimmy/hugo-th
 
 ## You can find me
 
-On GitHub, Twitter, Telegram and even Battle.net, where my usernames are mostly like `derbalkon`, `wrrrr` or `balconydesu`.
+On GitHub, Twitter, Telegram and even Battle.net, where my username variants are mostly like `derbalkon`, `wrrrr` or `balconydesu`.
 
 Yeah, they are all me.
