@@ -1,5 +1,5 @@
 baseurl: https://blog.wrrrr.me
-languageCode: en-us
+languageCode: zh-cn
 theme: hugo-theme-stack
 paginate: 10
 title: Void Space
@@ -21,7 +21,7 @@ params:
         - post
     featuredImageField: image
     rssFullContent: true
-    favicon:
+    favicon: favicon.ico
 
     footer:
         since: 2014
@@ -41,6 +41,7 @@ params:
     article:
         math: false
         toc: true
+        readingTime: false
         license:
             enabled: true
             default: 许可协议采用 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh)
